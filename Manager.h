@@ -14,6 +14,8 @@ public:
     virtual void update() = 0;
 
     virtual void draw() {}
+
+    virtual ~ManagedObject() {}
 };
 
 class Manager {
@@ -26,8 +28,10 @@ public:
 
     ~Manager();
 
-private:
     std::map<std::string, ManagedObject*> m_managed;
+
+private:
+
 
 };
 #endif // MANAGER_H

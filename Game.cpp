@@ -65,5 +65,7 @@ ShutdownError Game::shutdown() {
 
     m_window.close();
 
+    m_running = false;
+
     return SHUTDOWN_SUCCESS;
 }

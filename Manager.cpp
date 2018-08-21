@@ -3,8 +3,6 @@
 
 #include "Manager.h"
 
-#include "ManagedObject.h"
-
 Manager::Manager() {}
 
 void Manager::update() {
