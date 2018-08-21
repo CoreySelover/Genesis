@@ -7,7 +7,7 @@
 
 class Player: public Entity {
     public:
-        Player(int x, int y);
+        Player(int x, int y, bool canMove);
 };
 
 #endif // PLAYER_H
