@@ -24,12 +24,16 @@ public:
 
     virtual void print() {}
 
-    // Access to other managers.
+    // Access to other ManagedObjects.
+
     Entity* entity(std::string name);
 
     Texture* texture(std::string name);
 
     Screen* screen(std::string name);
+
+    // ManagedObjects can create Textures
+    Texture* addTexture(std::string filePath);
 
 private:
     Game* m_game;

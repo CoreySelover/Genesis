@@ -5,6 +5,8 @@
 
 #include "Game.h"
 #include "Entity.h"
+#include "Texture.h"
+#include "Screen.h"
 
 ManagedObject::ManagedObject(Game* game) {
     m_game = game;
@@ -20,6 +22,10 @@ Texture* ManagedObject::texture(std::string name) {
 
 Screen* ManagedObject::screen(std::string name) {
     return static_cast<Screen*>(m_game->m_managers[SCREEN_MANAGER]->get(name));
+}
+
+Texture* ManagedObject::addTexture(std::string filePath) {
+    return static_cast<Texture*>(m_game->m_managers[TEXTURE_MANAGER]->add(filePath, new Texture(m_game, filePath)));
 }
 
 Manager::Manager() {}
