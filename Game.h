@@ -47,11 +47,16 @@ private:
     friend class ManagedObject;
 
     // Window and related logic
+
     sf::RenderWindow m_window;
 
     bool m_running;
 
+    // Managers
+
     std::map<ManagerType, Manager*> m_managers;
+
+    std::string m_currentScreen;
 
 };
 #endif // GAME_H

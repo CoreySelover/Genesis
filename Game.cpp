@@ -21,8 +21,7 @@ BootError Game::boot() {
     m_managers[SCREEN_MANAGER] = new Manager();
 
     m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", 3.f));
-    m_managers[SCREEN_MANAGER]->print();
-    m_managers[TEXTURE_MANAGER]->print();
+    m_currentScreen = "happy_rock";
 
     m_running = true;
 
@@ -42,19 +41,13 @@ RunError Game::run() {
 
         m_window.clear();
 
-        /* Have all Managers update and draw.
-         * We don't do this in a single loop because O(2n) == O(n)
-         * for all intents and purposes and we theoretically are taking a more
-         * data-oriented design approach by updating all managers in one go,
-         * then drawing all managers in one go but this is just a hunch.
-         */
-        std::map<ManagerType, Manager*>::iterator itr;
-        for(itr = m_managers.begin(); itr != m_managers.end(); itr++) {
-            itr->second->update();
-        }
-        for(itr = m_managers.begin(); itr != m_managers.end(); itr++) {
-            itr->second->draw();
-        }
+        // Update managers as appropriate.
+        m_managers[SCREEN_MANAGER]->get(m_currentScreen)->update();
+        m_managers[ENTITY_MANAGER]->update();
+
+        // Draw
+        m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
+        m_managers[ENTITY_MANAGER]->draw();
 
         m_window.display();
     }
