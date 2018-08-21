@@ -13,7 +13,7 @@ public:
 
     virtual void update() = 0;
 
-    virtual void draw() {}
+    virtual void draw() = 0;
 
     virtual ~ManagedObject() {}
 };
@@ -28,10 +28,20 @@ public:
 
     ~Manager();
 
-    std::map<std::string, ManagedObject*> m_managed;
+    // Management
+
+    /* Adds a ManagedObject to the manager.
+     * If the object is already managed, return it
+     * rather than replacing.
+     */
+    ManagedObject* add(std::string name, ManagedObject* object);
+
+    void del(std::string name);
+
+    ManagedObject* get(std::string name);
 
 private:
-
+    std::map<std::string, ManagedObject*> m_managed;
 
 };
 #endif // MANAGER_H

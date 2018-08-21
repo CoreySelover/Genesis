@@ -26,3 +26,27 @@ Manager::~Manager() {
     }
     m_managed.clear();
 }
+
+ManagedObject* Manager::add(std::string name, ManagedObject* object) {
+    if(m_managed.count(name)) {
+        return m_managed[name];
+    }
+    else {
+        m_managed[name] = object;
+        return m_managed[name];
+    }
+}
+
+void Manager::del(std::string name) {
+    std::map<std::string, ManagedObject*>::iterator itr = m_managed.find(name);
+    if (itr != m_managed.end()) {
+        delete itr->second;
+        m_managed.erase(itr);
+    }
+}
+
+ManagedObject* Manager::get(std::string name) {
+    if(!m_managed.count(name)) {
+        throw "Tried to access non-existent object:";
+    }
+}

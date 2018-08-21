@@ -4,7 +4,7 @@
 #include "Game.h"
 
 // Project files
-#include "Includes.h"
+#include "Manager.h"
 
 Game::Game() {}
 
@@ -14,6 +14,7 @@ BootError Game::boot() {
     m_window.create(sf::VideoMode(800, 600), "Genesis");
 
     // Set up managers
+    m_managers[TEXTURE_MANAGER] = new Manager();
     m_managers[ENTITY_MANAGER] = new Manager();
     m_managers[SCREEN_MANAGER] = new Manager();
 
