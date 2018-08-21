@@ -6,6 +6,7 @@
 // Project files
 #include "Manager.h"
 #include "Player.h"
+#include "Splash.h"
 
 Game::Game() {}
 
@@ -19,8 +20,9 @@ BootError Game::boot() {
     m_managers[ENTITY_MANAGER] = new Manager();
     m_managers[SCREEN_MANAGER] = new Manager();
 
-    m_managers[ENTITY_MANAGER]->add("Player", new Player(this, 5, 5, true));
-    m_managers[ENTITY_MANAGER]->print();
+    m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", 3.f));
+    m_managers[SCREEN_MANAGER]->print();
+    m_managers[TEXTURE_MANAGER]->print();
 
     m_running = true;
 

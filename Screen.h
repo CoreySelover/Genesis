@@ -17,7 +17,7 @@ class Game;
 
 class Screen : public ManagedObject {
 public:
-    Screen(Game* game);
+    Screen(Game* game, bool active = false);
 
     virtual void update() {}
 
@@ -33,7 +33,9 @@ public:
     void turnConsoleOff();
 
 private:
-    sf::Sprite m_sprite;
+    bool m_active;
+
+    // Console
 
     sf::Text m_console;
 

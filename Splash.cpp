@@ -3,6 +3,8 @@
 
 #include "Splash.h"
 
+#include "Texture.h"
+
 Splash::Splash(Game* game, std::string imagePath, float duration = 3.f)
     : Screen(game) {
 
@@ -16,7 +18,7 @@ void Splash::update() {}
 void Splash::draw() {}
 
 void Splash::loadFile(std::string imagePath) {
-
+    m_sprite.setTexture(addTexture(imagePath)->get());
 }
 
 Splash::~Splash() {}

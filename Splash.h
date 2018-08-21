@@ -21,6 +21,8 @@ public:
     void loadFile(std::string imagePath);
 
 private:
+    sf::Sprite m_sprite;
+
     std::string m_imagePath;
 
     float m_duration;
