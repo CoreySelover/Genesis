@@ -40,6 +40,8 @@ public:
 
     ManagedObject* get(std::string name);
 
+    void print();
+
 private:
     std::map<std::string, ManagedObject*> m_managed;
 

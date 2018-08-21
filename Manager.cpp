@@ -46,7 +46,24 @@ void Manager::del(std::string name) {
 }
 
 ManagedObject* Manager::get(std::string name) {
-    if(!m_managed.count(name)) {
-        throw "Tried to access non-existent object:";
+    try {
+        if(!m_managed.count(name)) {
+            throw name;
+        }
+        else {
+            return m_managed[name];
+        }
+    }
+    catch (std::string missingObject) {
+        std::cout << "Object doesnt exist: " << missingObject << std::endl;
+    }
+
+    return NULL;
+}
+
+void Manager::print() {
+    std::map<std::string, ManagedObject*>::iterator itr;
+    for (itr = m_managed.begin(); itr != m_managed.end(); itr++) {
+        std::cout << itr->first << std::endl;
     }
 }
