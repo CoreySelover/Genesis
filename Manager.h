@@ -16,6 +16,8 @@ public:
     virtual void draw() = 0;
 
     virtual ~ManagedObject() {}
+
+    virtual void print() {}
 };
 
 class Manager {
@@ -40,7 +42,7 @@ public:
 
     ManagedObject* get(std::string name);
 
-    void print();
+    void print(bool verbose);
 
 private:
     std::map<std::string, ManagedObject*> m_managed;

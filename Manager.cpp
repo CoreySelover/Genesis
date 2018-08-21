@@ -61,9 +61,10 @@ ManagedObject* Manager::get(std::string name) {
     return NULL;
 }
 
-void Manager::print() {
+void Manager::print(bool verbose = false) {
     std::map<std::string, ManagedObject*>::iterator itr;
     for (itr = m_managed.begin(); itr != m_managed.end(); itr++) {
         std::cout << itr->first << std::endl;
+        if(verbose) itr->second->print();
     }
 }

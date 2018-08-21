@@ -25,8 +25,19 @@ public:
 
     ~Screen() {}
 
+    // Every Screen has a debug console that can be written to.
+    void writeToConsole(std::string);
+
+    void turnConsoleOn();
+
+    void turnConsoleOff();
+
 private:
     sf::Sprite m_sprite;
+
+    sf::Text m_console;
+
+    bool m_consoleVisible;
 
     Game* m_game;
 };

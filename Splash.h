@@ -8,8 +8,6 @@
 
 class Splash : public Screen {
 public:
-    // Constructors
-
     Splash(Game* game, std::string imagePath, float duration);
 
     void update();
