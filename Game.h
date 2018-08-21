@@ -13,6 +13,7 @@
 // Project files
 class Manager;
 
+// TODO - Are these really necessary?
 enum BootError {
     BOOT_SUCCESS
 };
@@ -26,7 +27,8 @@ enum ShutdownError {
 };
 
 enum ManagerType {
-    ENTITY_MANAGER
+    ENTITY_MANAGER,
+    SCREEN_MANAGER
 };
 
 class Game {

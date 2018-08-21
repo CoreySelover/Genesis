@@ -3,10 +3,20 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-class Entity {
+/* An Entity is any game object that occupies physical space, or is in some way
+ * interact-able.  For example, the Player, a powerup, a hidden event, etc.
+ */
+
+#include "Manager.h"
+
+class Entity : public ManagedObject {
 public:
 
     Entity(int x, int y, bool canMove);
+
+    virtual void update() {}
+
+    virtual void draw() {}
 
     // Getters
 

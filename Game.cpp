@@ -4,7 +4,7 @@
 #include "Game.h"
 
 // Project files
-#include "Manager.h"
+#include "Includes.h"
 
 Game::Game() {}
 
@@ -15,6 +15,7 @@ BootError Game::boot() {
 
     // Set up managers
     m_managers[ENTITY_MANAGER] = new Manager();
+    m_managers[SCREEN_MANAGER] = new Manager();
 
     m_running = true;
 
