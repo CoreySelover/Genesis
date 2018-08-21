@@ -5,9 +5,11 @@
 
 #include "Entity.h"
 
+class Game;
+
 class Player: public Entity {
     public:
-        Player(int x, int y, bool canMove);
+        Player(Game* game, int x, int y, bool canMove);
 };
 
 #endif // PLAYER_H

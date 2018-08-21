@@ -7,9 +7,14 @@
 #include <map>
 #include <iostream>
 
+class Game;
+class Entity;
+class Texture;
+class Screen;
+
 class ManagedObject {
 public:
-    ManagedObject() {}
+    ManagedObject(Game* game);
 
     virtual void update() = 0;
 
@@ -18,6 +23,16 @@ public:
     virtual ~ManagedObject() {}
 
     virtual void print() {}
+
+    // Access to other managers.
+    Entity* entity(std::string name);
+
+    Texture* texture(std::string name);
+
+    Screen* screen(std::string name);
+
+private:
+    Game* m_game;
 };
 
 class Manager {
@@ -42,7 +57,7 @@ public:
 
     ManagedObject* get(std::string name);
 
-    void print(bool verbose);
+    void print(bool verbose = false);
 
 private:
     std::map<std::string, ManagedObject*> m_managed;

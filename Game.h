@@ -44,13 +44,14 @@ public:
     ShutdownError shutdown();
 
 private:
+    friend class ManagedObject;
 
     // Window and related logic
     sf::RenderWindow m_window;
 
     bool m_running;
 
-    // Game logic
     std::map<ManagerType, Manager*> m_managers;
+
 };
 #endif // GAME_H

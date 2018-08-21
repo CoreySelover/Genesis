@@ -3,7 +3,8 @@
 
 #include "Entity.h"
 
-Entity::Entity(int x, int y, bool canMove = true) {
+Entity::Entity(Game* game, int x, int y, bool canMove = true)
+    : ManagedObject(game) {
 
     setX(x);
     setY(y);

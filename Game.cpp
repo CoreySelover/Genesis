@@ -19,7 +19,7 @@ BootError Game::boot() {
     m_managers[ENTITY_MANAGER] = new Manager();
     m_managers[SCREEN_MANAGER] = new Manager();
 
-    m_managers[ENTITY_MANAGER]->add("Player", new Player(5, 5, true));
+    m_managers[ENTITY_MANAGER]->add("Player", new Player(this, 5, 5, true));
     m_managers[ENTITY_MANAGER]->print();
 
     m_running = true;

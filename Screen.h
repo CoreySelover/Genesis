@@ -38,7 +38,5 @@ private:
     sf::Text m_console;
 
     bool m_consoleVisible;
-
-    Game* m_game;
 };
 #endif // SCREEN_H

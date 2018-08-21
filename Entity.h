@@ -9,10 +9,12 @@
 
 #include "Manager.h"
 
+class Game;
+
 class Entity : public ManagedObject {
 public:
 
-    Entity(int x, int y, bool canMove);
+    Entity(Game* game, int x, int y, bool canMove);
 
     virtual void update() {}
 

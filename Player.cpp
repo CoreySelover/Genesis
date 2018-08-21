@@ -3,4 +3,5 @@
 
 #include "Player.h"
 
-Player::Player(int x, int y, bool canMove) : Entity(x, y, canMove) {}
+Player::Player(Game* game, int x, int y, bool canMove)
+    : Entity(game, x, y, canMove){}

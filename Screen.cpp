@@ -3,8 +3,8 @@
 
 #include "Screen.h"
 
-Screen::Screen(Game* game) {
-    m_game = game;
+Screen::Screen(Game* game)
+    : ManagedObject(game) {
     m_consoleVisible = false;
 }
 
