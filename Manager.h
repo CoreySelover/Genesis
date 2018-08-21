@@ -7,5 +7,9 @@
 class Manager {
 public:
     Manager();
+
+    virtual void update();
+
+    virtual void draw();
 };
 #endif // MANAGER_H

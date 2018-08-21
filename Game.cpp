@@ -32,9 +32,22 @@ RunError Game::run() {
                 shutdown();
         }
 
-        // Update loop
         m_window.clear();
-        // Draw loop
+
+        /* Have all Managers update and draw.
+         * We don't do this in a single loop because O(2n) == O(n)
+         * for all intents and purposes and we theoretically are taking a more
+         * data-oriented design approach by updating all managers in one go,
+         * then drawing all managers in one go but this is just a hunch.
+         */
+        std::map<ManagerType, Manager*>::iterator itr;
+        for(itr = m_managers.begin(); itr != m_managers.end(); itr++) {
+            itr->second->update();
+        }
+        for(itr = m_managers.begin(); itr != m_managers.end(); itr++) {
+            itr->second->draw();
+        }
+
         m_window.display();
     }
 
@@ -44,8 +57,13 @@ RunError Game::run() {
 ShutdownError Game::shutdown() {
 
     // Delete managers
-    delete m_managers[ENTITY_MANAGER];
+    std::map<ManagerType, Manager*>::iterator itr;
+    for(itr = m_managers.begin(); itr != m_managers.end(); itr++) {
+        delete itr->second;
+    }
+    m_managers.clear();
 
     m_window.close();
+
     return SHUTDOWN_SUCCESS;
 }

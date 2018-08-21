@@ -3,5 +3,12 @@
 
 #include "Manager.h"
 
-Manager::Manager() {
+Manager::Manager() {}
+
+void Manager::update() {
+
+}
+
+void Manager::draw() {
+
 }
