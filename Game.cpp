@@ -7,6 +7,7 @@
 #include "Manager.h"
 #include "Player.h"
 #include "Splash.h"
+#include "Map.h"
 #include "Texture.h"
 
 Game::Game() {}
@@ -23,8 +24,10 @@ BootError Game::boot() {
 
     m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", sf::seconds(3.0f)));
     m_managers[SCREEN_MANAGER]->add("disclaimer", new Splash(this, "resources/textures/splash2.png", sf::seconds(3.0f)));
+    m_managers[SCREEN_MANAGER]->add("map", new Map(this));
     m_screenQueue.push("happy_rock");
     m_screenQueue.push("disclaimer");
+    m_screenQueue.push("map");
 
     m_running = true;
 
