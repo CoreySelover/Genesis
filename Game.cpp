@@ -35,17 +35,19 @@ RunError Game::run() {
         sf::Event event;
         while (m_window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 shutdown();
+            }
         }
 
-        m_window.clear();
+        if(!m_running) return RUN_SUCCESS;
 
         // Update managers as appropriate.
         m_managers[SCREEN_MANAGER]->get(m_currentScreen)->update();
         m_managers[ENTITY_MANAGER]->update();
 
         // Draw
+        m_window.clear();
         m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
         m_managers[ENTITY_MANAGER]->draw();
 
@@ -57,8 +59,13 @@ RunError Game::run() {
 
 ShutdownError Game::shutdown() {
 
-    // Delete managers
+    // Shutdown managers
     std::map<ManagerType, Manager*>::iterator itr;
+    for(itr = m_managers.begin(); itr != m_managers.end(); itr++) {
+        itr->second->shutdown();
+    }
+
+    // Delete managers
     for(itr = m_managers.begin(); itr != m_managers.end(); itr++) {
         delete itr->second;
     }

@@ -65,9 +65,6 @@ public:
 
     ManagedObject* get(std::string name);
 
-    void pause();
-
-
 private:
     std::map<std::string, ManagedObject*> m_managed;
 

@@ -63,6 +63,11 @@ void Manager::draw() {
     }
 }
 
+void Manager::shutdown() {
+    m_update = false;
+    m_draw = false;
+}
+
 Manager::~Manager() {
     std::map<std::string, ManagedObject*>::iterator itr;
     for(itr = m_managed.begin(); itr != m_managed.end(); itr++) {
@@ -103,9 +108,4 @@ ManagedObject* Manager::get(std::string name) {
     }
 
     return NULL;
-}
-
-void Manager::pause() {
-    m_update = false;
-    m_draw = false;
 }
