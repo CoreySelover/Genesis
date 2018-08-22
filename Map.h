@@ -7,21 +7,23 @@
 #include "Screen.h"
 
 class Tile;
+class Texture;
 
 class Map : public Screen {
 public:
     Map(Game* game, bool active = false);
 
+    void populateStartingMap();
+
     void update();
 
     void draw();
 
+    Texture* texture(std::string filePath);
+
     ~Map();
 
 private:
-    const int MAX_HEIGHT;
-    const int MAX_WIDTH;
-
     std::vector<std::vector<Tile*> > m_grid;
 };
 

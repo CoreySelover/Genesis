@@ -4,6 +4,7 @@
 #include "Game.h"
 
 // Project files
+#include "Constants.h"
 #include "Manager.h"
 #include "Player.h"
 #include "Splash.h"
