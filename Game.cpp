@@ -22,7 +22,9 @@ BootError Game::boot() {
     m_managers[SCREEN_MANAGER] = new Manager();
 
     m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", sf::seconds(3.0f)));
+    m_managers[SCREEN_MANAGER]->add("disclaimer", new Splash(this, "resources/textures/splash2.png", sf::seconds(3.0f)));
     m_screenQueue.push("happy_rock");
+    m_screenQueue.push("disclaimer");
 
     m_running = true;
 
@@ -48,7 +50,6 @@ RunError Game::run() {
         if(!m_running) return RUN_SUCCESS;
 
         // Update managers as appropriate.
-        // TODO - should this be a member variable?
         std::string currentScreen = m_screenQueue.front();
         m_managers[SCREEN_MANAGER]->get(currentScreen)->update();
         m_managers[ENTITY_MANAGER]->update();
@@ -96,6 +97,9 @@ void Game::draw(sf::Drawable& drawable) {
 void Game::nextScreen() {
     if(!m_screenQueue.empty()) {
         m_screenQueue.pop();
+    }
+    if(!m_screenQueue.empty()) {
+        static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_screenQueue.front()))->restartClock();
     }
 }
 

@@ -15,9 +15,7 @@ Splash::Splash(Game* game, std::string imagePath, sf::Time duration)
 }
 
 void Splash::update() {
-    static sf::Clock currentTime;
-
-    if(currentTime.getElapsedTime() >= m_duration) {
+    if(elapsedTime() >= m_duration) {
         m_game->nextScreen();
     }
 }

@@ -37,6 +37,12 @@ public:
 
     void activate();
 
+    // Timekeeping
+
+    void restartClock();
+
+    sf::Time elapsedTime();
+
 private:
     bool m_active;
 
@@ -45,5 +51,9 @@ private:
     sf::Text m_console;
 
     bool m_consoleVisible;
+
+    // Clock
+
+    sf::Clock m_currentTime;
 };
 #endif // SCREEN_H

@@ -32,3 +32,11 @@ void Screen::deactivate() {
 void Screen::activate() {
     m_active = true;
 }
+
+void Screen::restartClock() {
+    m_currentTime.restart();
+}
+
+sf::Time Screen::elapsedTime() {
+    return m_currentTime.getElapsedTime();
+}
