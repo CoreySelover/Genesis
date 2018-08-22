@@ -6,6 +6,7 @@
 
 // Standard library
 #include <map>
+#include <queue>
 
 // External libraries
 #include <SFML/Graphics.hpp>
@@ -38,6 +39,9 @@ enum ManagerType {
 class Game {
 
 public:
+
+    // Overall architecture
+
     Game();
 
     BootError boot();
@@ -46,7 +50,13 @@ public:
 
     ShutdownError shutdown();
 
+    // Drawing and Screen handling
+
     void draw(sf::Drawable& drawable);
+
+    void nextScreen();
+
+    void setActiveScreen(std::string);
 
     // Getters and setters
 
@@ -73,7 +83,7 @@ private:
 
     std::map<ManagerType, Manager*> m_managers;
 
-    std::string m_currentScreen;
+    std::queue<std::string> m_screenQueue;
 
 };
 #endif // GAME_H

@@ -21,8 +21,8 @@ BootError Game::boot() {
     m_managers[ENTITY_MANAGER] = new Manager();
     m_managers[SCREEN_MANAGER] = new Manager();
 
-    m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", 3.f));
-    m_currentScreen = "happy_rock";
+    m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", sf::seconds(3.0f)));
+    m_screenQueue.push("happy_rock");
 
     m_running = true;
 
@@ -41,15 +41,21 @@ RunError Game::run() {
             }
         }
 
+        // No more screens to display.  Time to quit.
+        if(m_screenQueue.empty()) {
+            shutdown();
+        }
         if(!m_running) return RUN_SUCCESS;
 
         // Update managers as appropriate.
-        m_managers[SCREEN_MANAGER]->get(m_currentScreen)->update();
+        // TODO - should this be a member variable?
+        std::string currentScreen = m_screenQueue.front();
+        m_managers[SCREEN_MANAGER]->get(currentScreen)->update();
         m_managers[ENTITY_MANAGER]->update();
 
         // Draw
         m_window.clear();
-        m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
+        m_managers[SCREEN_MANAGER]->get(currentScreen)->draw();
         m_managers[ENTITY_MANAGER]->draw();
 
         m_window.display();
@@ -59,6 +65,8 @@ RunError Game::run() {
 }
 
 ShutdownError Game::shutdown() {
+
+    m_running = false;
 
     // Shutdown managers
     std::map<ManagerType, Manager*>::iterator itr;
@@ -74,14 +82,26 @@ ShutdownError Game::shutdown() {
 
     m_window.close();
 
-    m_running = false;
-
     return SHUTDOWN_SUCCESS;
 }
+
+///////////////////////////////////
+//      Drawing and Screen       //
+///////////////////////////////////
 
 void Game::draw(sf::Drawable& drawable) {
     m_window.draw(drawable);
 }
+
+void Game::nextScreen() {
+    if(!m_screenQueue.empty()) {
+        m_screenQueue.pop();
+    }
+}
+
+///////////////////////////////////
+//      Getters and Setters      //
+///////////////////////////////////
 
 Entity* Game::entity(std::string name) {
     return static_cast<Entity*>(m_managers[ENTITY_MANAGER]->get(name));

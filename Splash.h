@@ -8,7 +8,7 @@
 
 class Splash : public Screen {
 public:
-    Splash(Game* game, std::string imagePath, float duration);
+    Splash(Game* game, std::string imagePath, sf::Time duration);
 
     void update();
 
@@ -25,7 +25,7 @@ private:
 
     std::string m_imagePath;
 
-    float m_duration;
+    sf::Time m_duration;
 
 };
 #endif // SPLASH_H

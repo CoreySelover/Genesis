@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "Texture.h"
 
-Splash::Splash(Game* game, std::string imagePath, float duration = 3.f)
+Splash::Splash(Game* game, std::string imagePath, sf::Time duration)
     : Screen(game) {
 
     loadFile(imagePath);
@@ -14,7 +14,13 @@ Splash::Splash(Game* game, std::string imagePath, float duration = 3.f)
     m_duration = duration;
 }
 
-void Splash::update() {}
+void Splash::update() {
+    static sf::Clock currentTime;
+
+    if(currentTime.getElapsedTime() >= m_duration) {
+        m_game->nextScreen();
+    }
+}
 
 void Splash::draw() {
     m_game->draw(m_sprite);

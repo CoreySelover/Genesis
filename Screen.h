@@ -19,18 +19,23 @@ class Screen : public ManagedObject {
 public:
     Screen(Game* game, bool active = false);
 
-    virtual void update() {}
+    virtual void update();
 
     virtual void draw() {}
 
     ~Screen() {}
 
     // Every Screen has a debug console that can be written to.
+
     void writeToConsole(std::string);
 
     void turnConsoleOn();
 
     void turnConsoleOff();
+
+    void deactivate();
+
+    void activate();
 
 private:
     bool m_active;
