@@ -12,3 +12,7 @@ Texture::Texture(Game* game, std::string filePath)
 sf::Texture& Texture::get() {
     return m_texture;
 }
+
+sf::Vector2f Texture::center() {
+    return sf::Vector2f(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
+}

@@ -17,11 +17,13 @@ Splash::Splash(Game* game, std::string imagePath, float duration = 3.f)
 void Splash::update() {}
 
 void Splash::draw() {
-
+    m_game->draw(m_sprite);
 }
 
 void Splash::loadFile(std::string imagePath) {
     m_sprite.setTexture(m_game->addTexture(imagePath)->get());
+    m_sprite.setOrigin(m_game->texture(imagePath)->center());
+    m_sprite.setPosition(m_game->windowCenter());
 }
 
 Splash::~Splash() {}

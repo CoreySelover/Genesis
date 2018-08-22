@@ -46,6 +46,8 @@ public:
 
     ShutdownError shutdown();
 
+    void draw(sf::Drawable& drawable);
+
     // Getters and setters
 
     Entity* entity(std::string name);
@@ -56,7 +58,7 @@ public:
 
     Screen* screen(std::string name);
 
-    void draw(sf::Drawable&);
+    sf::Vector2f windowCenter();
 
 private:
     friend class ManagedObject;

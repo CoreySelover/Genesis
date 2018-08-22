@@ -14,7 +14,7 @@ Game::Game() {}
 BootError Game::boot() {
 
     // Window
-    m_window.create(sf::VideoMode(800, 600), "Genesis");
+    m_window.create(sf::VideoMode(1200, 600), "Genesis");
 
     // Set up managers
     m_managers[TEXTURE_MANAGER] = new Manager();
@@ -79,6 +79,10 @@ ShutdownError Game::shutdown() {
     return SHUTDOWN_SUCCESS;
 }
 
+void Game::draw(sf::Drawable& drawable) {
+    m_window.draw(drawable);
+}
+
 Entity* Game::entity(std::string name) {
     return static_cast<Entity*>(m_managers[ENTITY_MANAGER]->get(name));
 }
@@ -94,3 +98,9 @@ Texture* Game::addTexture(std::string filePath) {
 Screen* Game::screen(std::string name) {
     return static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(name));
 }
+
+sf::Vector2f Game::windowCenter() {
+    return sf::Vector2f(m_window.getSize().x / 2, m_window.getSize().y / 2);
+}
+
+

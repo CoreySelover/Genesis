@@ -23,6 +23,8 @@ public:
 
     sf::Texture& get();
 
+    sf::Vector2f center();
+
 private:
     sf::Texture m_texture;
 };
