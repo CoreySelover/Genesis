@@ -7,6 +7,7 @@
 #include "Manager.h"
 #include "Player.h"
 #include "Splash.h"
+#include "Texture.h"
 
 Game::Game() {}
 
@@ -76,4 +77,20 @@ ShutdownError Game::shutdown() {
     m_running = false;
 
     return SHUTDOWN_SUCCESS;
+}
+
+Entity* Game::entity(std::string name) {
+    return static_cast<Entity*>(m_managers[ENTITY_MANAGER]->get(name));
+}
+
+Texture* Game::texture(std::string name) {
+    return static_cast<Texture*>(m_managers[TEXTURE_MANAGER]->get(name));
+}
+
+Texture* Game::addTexture(std::string filePath) {
+    return static_cast<Texture*>(m_managers[TEXTURE_MANAGER]->add(filePath, new Texture(this, filePath)));
+}
+
+Screen* Game::screen(std::string name) {
+    return static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(name));
 }

@@ -4,33 +4,18 @@
 #include "Manager.h"
 
 #include "Game.h"
-#include "Entity.h"
-#include "Texture.h"
-#include "Screen.h"
 
-// ManagedObject
+//////////////////////////////////////
+//        ManagedObject             //
+//////////////////////////////////////
 
 ManagedObject::ManagedObject(Game* game) {
     m_game = game;
 }
 
-Entity* ManagedObject::entity(std::string name) {
-    return static_cast<Entity*>(m_game->m_managers[ENTITY_MANAGER]->get(name));
-}
-
-Texture* ManagedObject::texture(std::string name) {
-    return static_cast<Texture*>(m_game->m_managers[TEXTURE_MANAGER]->get(name));
-}
-
-Screen* ManagedObject::screen(std::string name) {
-    return static_cast<Screen*>(m_game->m_managers[SCREEN_MANAGER]->get(name));
-}
-
-Texture* ManagedObject::addTexture(std::string filePath) {
-    return static_cast<Texture*>(m_game->m_managers[TEXTURE_MANAGER]->add(filePath, new Texture(m_game, filePath)));
-}
-
-// Manager
+//////////////////////////////////////
+//            Manager               //
+//////////////////////////////////////
 
 Manager::Manager() {
     m_update = true;

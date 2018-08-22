@@ -8,9 +8,6 @@
 #include <iostream>
 
 class Game;
-class Entity;
-class Texture;
-class Screen;
 
 class ManagedObject {
 public:
@@ -24,18 +21,7 @@ public:
 
     virtual void print() {}
 
-    // Access to other ManagedObjects.
-
-    Entity* entity(std::string name);
-
-    Texture* texture(std::string name);
-
-    Screen* screen(std::string name);
-
-    // ManagedObjects can create Textures
-    Texture* addTexture(std::string filePath);
-
-private:
+protected:
     Game* m_game;
 };
 

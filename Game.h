@@ -12,6 +12,9 @@
 
 // Project files
 class Manager;
+class Entity;
+class Texture;
+class Screen;
 
 // TODO - Are these really necessary?
 enum BootError {
@@ -42,6 +45,18 @@ public:
     RunError run();
 
     ShutdownError shutdown();
+
+    // Getters and setters
+
+    Entity* entity(std::string name);
+
+    Texture* addTexture(std::string filePath);
+
+    Texture* texture(std::string name);
+
+    Screen* screen(std::string name);
+
+    void draw(sf::Drawable&);
 
 private:
     friend class ManagedObject;
