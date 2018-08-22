@@ -8,6 +8,8 @@
 #include "Texture.h"
 #include "Screen.h"
 
+// ManagedObject
+
 ManagedObject::ManagedObject(Game* game) {
     m_game = game;
 }
@@ -28,9 +30,24 @@ Texture* ManagedObject::addTexture(std::string filePath) {
     return static_cast<Texture*>(m_game->m_managers[TEXTURE_MANAGER]->add(filePath, new Texture(m_game, filePath)));
 }
 
-Manager::Manager() {}
+// Manager
+
+Manager::Manager() {
+    m_update = true;
+    m_draw = true;
+}
+
+void Manager::print(bool verbose) {
+    std::map<std::string, ManagedObject*>::iterator itr;
+    for (itr = m_managed.begin(); itr != m_managed.end(); itr++) {
+        std::cout << itr->first << std::endl;
+        if(verbose) itr->second->print();
+    }
+}
 
 void Manager::update() {
+    if(!m_update) return;
+
     std::map<std::string, ManagedObject*>::iterator itr;
     for(itr = m_managed.begin(); itr != m_managed.end(); itr++) {
         itr->second->update();
@@ -38,6 +55,8 @@ void Manager::update() {
 }
 
 void Manager::draw() {
+    if(!m_draw) return;
+
     std::map<std::string, ManagedObject*>::iterator itr;
     for(itr = m_managed.begin(); itr != m_managed.end(); itr++) {
         itr->second->draw();
@@ -86,10 +105,7 @@ ManagedObject* Manager::get(std::string name) {
     return NULL;
 }
 
-void Manager::print(bool verbose) {
-    std::map<std::string, ManagedObject*>::iterator itr;
-    for (itr = m_managed.begin(); itr != m_managed.end(); itr++) {
-        std::cout << itr->first << std::endl;
-        if(verbose) itr->second->print();
-    }
+void Manager::pause() {
+    m_update = false;
+    m_draw = false;
 }

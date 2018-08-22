@@ -47,7 +47,11 @@ public:
 
     void draw();
 
+    void shutdown();
+
     ~Manager();
+
+    void print(bool verbose = false);
 
     // Management
 
@@ -61,10 +65,15 @@ public:
 
     ManagedObject* get(std::string name);
 
-    void print(bool verbose = false);
+    void pause();
+
 
 private:
     std::map<std::string, ManagedObject*> m_managed;
+
+    bool m_update;
+
+    bool m_draw;
 
 };
 #endif // MANAGER_H
