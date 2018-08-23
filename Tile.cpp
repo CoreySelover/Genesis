@@ -47,3 +47,7 @@ void Tile::changeType(TileType newType) {
     m_type = newType;
     setSpriteTexture();
 }
+
+sf::Vector2f Tile::coordinatesAsPixels() {
+    return sf::Vector2f(m_x * Constants::TILE_WIDTH, m_y * Constants::TILE_HEIGHT);
+}

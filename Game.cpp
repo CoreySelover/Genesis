@@ -124,12 +124,16 @@ Screen* Game::screen(std::string name) {
     return static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(name));
 }
 
-void Game::setView(sf::View& view) {
+void Game::setView(sf::View view) {
     m_window.setView(view);
 }
 
 sf::Vector2f Game::windowCenter() {
     return sf::Vector2f(m_window.getSize().x / 2, m_window.getSize().y / 2);
+}
+
+const sf::View& Game::defaultView() {
+    return m_window.getDefaultView();
 }
 
 

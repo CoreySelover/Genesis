@@ -32,6 +32,8 @@ public:
 
     void changeType(TileType newType);
 
+    sf::Vector2f coordinatesAsPixels();
+
 private:
     Map* m_map;
 

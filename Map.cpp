@@ -15,6 +15,8 @@ Map::Map(Game* game, bool active, int mapSeed)
     m_game->addTexture("resources/textures/TEXTURE_WATER.png");
     m_game->addTexture("resources/textures/TEXTURE_BLANK.png");
 
+    m_view = m_game->defaultView();
+
     populateStartingMap(mapSeed);
 }
 
@@ -28,6 +30,7 @@ void Map::populateStartingMap(int seed) {
     }
 
     // Default map.
+    m_grid[0][0]->changeType(TILE_GRASS);
     if(seed == 1) {
         sf::Vector2i center = Constants::mapCenterAsCoordinates();
         m_grid[center.x][center.y]->changeType(TILE_GRASS);
@@ -35,17 +38,23 @@ void Map::populateStartingMap(int seed) {
         m_grid[center.x + 1][center.y]->changeType(TILE_GRASS);
         m_grid[center.x][center.y - 1]->changeType(TILE_GRASS);
         m_grid[center.x][center.y + 1]->changeType(TILE_GRASS);
+        m_view.setCenter(m_grid[center.x][center.y]->coordinatesAsPixels());
     }
     // Mutate the seed
     else {
 
     }
+
+
+
 }
 
 void Map::update() {
 }
 
 void Map::draw() {
+    m_game->setView(m_view);
+
     // Draw from "back" (top) of the map "forward" (down)
     for(int y = 0; y < Constants::MAP_HEIGHT; y++) {
         for(int x = 0; x < Constants::MAP_WIDTH; x++) {

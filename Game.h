@@ -58,7 +58,7 @@ public:
 
     void setActiveScreen(std::string);
 
-    void setView(sf::View& view);
+    void setView(sf::View view);
 
     // Getters and setters
 
@@ -72,9 +72,9 @@ public:
 
     sf::Vector2f windowCenter();
 
-private:
-    friend class ManagedObject;
+    const sf::View& defaultView();
 
+private:
     // Window and related logic
 
     sf::RenderWindow m_window;
