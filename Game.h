@@ -58,6 +58,8 @@ public:
 
     void setActiveScreen(std::string);
 
+    void setView(sf::View& view);
+
     // Getters and setters
 
     Entity* entity(std::string name);
@@ -76,6 +78,8 @@ private:
     // Window and related logic
 
     sf::RenderWindow m_window;
+
+    sf::View m_view;
 
     bool m_running;
 

@@ -8,12 +8,13 @@
 
 class Tile;
 class Texture;
+class Manager;
 
 class Map : public Screen {
 public:
-    Map(Game* game, bool active = false);
+    Map(Game* game, bool active = false, int mapSeed = 1);
 
-    void populateStartingMap();
+    void populateStartingMap(int seed);
 
     void update();
 
@@ -27,6 +28,11 @@ public:
 
 private:
     std::vector<std::vector<Tile*> > m_grid;
+
+    Manager* m_entMan;
+
+    // TODO - this will probably become a Camera class.
+    sf::View m_view;
 };
 
 #endif // MAP_H

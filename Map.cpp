@@ -7,7 +7,7 @@
 #include "Game.h"
 #include "Tile.h"
 
-Map::Map(Game* game, bool active)
+Map::Map(Game* game, bool active, int mapSeed)
     : Screen(game, active) {
 
     // Load all tile textures ahead of time
@@ -15,10 +15,10 @@ Map::Map(Game* game, bool active)
     m_game->addTexture("resources/textures/TEXTURE_WATER.png");
     m_game->addTexture("resources/textures/TEXTURE_BLANK.png");
 
-    populateStartingMap();
+    populateStartingMap(mapSeed);
 }
 
-void Map::populateStartingMap() {
+void Map::populateStartingMap(int seed) {
     // Create blank tiles
     for(int x = 0; x < Constants::MAP_WIDTH; x++) {
         m_grid.push_back(std::vector<Tile*>());
@@ -27,8 +27,19 @@ void Map::populateStartingMap() {
         }
     }
 
-    // Make some grass.
-    m_grid[Constants::mapCenterAsCoordinates().x][Constants::mapCenterAsCoordinates().y]->changeType(TILE_GRASS);
+    // Default map.
+    if(seed == 1) {
+        sf::Vector2i center = Constants::mapCenterAsCoordinates();
+        m_grid[center.x][center.y]->changeType(TILE_GRASS);
+        m_grid[center.x - 1][center.y]->changeType(TILE_GRASS);
+        m_grid[center.x + 1][center.y]->changeType(TILE_GRASS);
+        m_grid[center.x][center.y - 1]->changeType(TILE_GRASS);
+        m_grid[center.x][center.y + 1]->changeType(TILE_GRASS);
+    }
+    // Mutate the seed
+    else {
+
+    }
 }
 
 void Map::update() {

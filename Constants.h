@@ -16,7 +16,7 @@ public:
     static const int TILE_WIDTH = 64;
     static const int TILE_HEIGHT = 64;
 
-    static sf::Vector2f mapCenterAsPixels();
+    static sf::Vector2i mapCenterAsPixels();
     static sf::Vector2i mapCenterAsCoordinates();
 };
 

@@ -20,7 +20,6 @@ BootError Game::boot() {
 
     // Set up managers
     m_managers[TEXTURE_MANAGER] = new Manager();
-    m_managers[ENTITY_MANAGER] = new Manager();
     m_managers[SCREEN_MANAGER] = new Manager();
 
     // TODO - turn these back on for release.
@@ -57,13 +56,10 @@ RunError Game::run() {
         // Update managers as appropriate.
         std::string currentScreen = m_screenQueue.front();
         m_managers[SCREEN_MANAGER]->get(currentScreen)->update();
-        m_managers[ENTITY_MANAGER]->update();
 
         // Draw
         m_window.clear();
         m_managers[SCREEN_MANAGER]->get(currentScreen)->draw();
-        m_managers[ENTITY_MANAGER]->draw();
-
         m_window.display();
     }
 
@@ -126,6 +122,10 @@ Texture* Game::addTexture(std::string filePath) {
 
 Screen* Game::screen(std::string name) {
     return static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(name));
+}
+
+void Game::setView(sf::View& view) {
+    m_window.setView(view);
 }
 
 sf::Vector2f Game::windowCenter() {
