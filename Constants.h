@@ -10,8 +10,8 @@ public:
     static const int MAP_HEIGHT = 9;
     static const int MAP_WIDTH = 9;
 
-    static const int TILE_WIDTH = 32;
-    static const int TILE_HEIGHT = 32;
+    static const int TILE_WIDTH = 64;
+    static const int TILE_HEIGHT = 64;
 };
 
 #endif // CONSTANTS_H

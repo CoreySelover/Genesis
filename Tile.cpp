@@ -3,6 +3,7 @@
 
 #include "Tile.h"
 
+#include "Constants.h"
 #include "Map.h"
 #include "Texture.h"
 
@@ -27,6 +28,9 @@ Tile::Tile(Map* map, int x, int y, TileType type)
             m_sprite.setTexture(m_map->texture("resources/textures/TEXTURE_BLANK.png")->get());
             break;
     }
+
+    m_sprite.setOrigin(sf::Vector2f(0,0));
+    m_sprite.setPosition(m_x * Constants::TILE_WIDTH, m_y * Constants::TILE_HEIGHT);
 }
 
 void Tile::update() {}
