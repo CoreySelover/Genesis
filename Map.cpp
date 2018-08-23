@@ -28,7 +28,7 @@ void Map::populateStartingMap() {
     }
 
     // Make some grass.
-    m_grid[3][4]->changeType(TILE_GRASS);
+    m_grid[Constants::mapCenterAsCoordinates().x][Constants::mapCenterAsCoordinates().y]->changeType(TILE_GRASS);
 }
 
 void Map::update() {

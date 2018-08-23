@@ -3,7 +3,12 @@
 
 #include "Constants.h"
 
-sf::Vector2f Constants::mapCenter() {
+sf::Vector2f Constants::mapCenterAsPixels() {
     return sf::Vector2f(Constants::MAP_WIDTH * Constants::TILE_WIDTH / 2,
                         Constants::MAP_HEIGHT * Constants::TILE_HEIGHT / 2);
+}
+
+sf::Vector2i Constants::mapCenterAsCoordinates() {
+    return sf::Vector2i(Constants::MAP_WIDTH / 2,
+                        Constants::MAP_HEIGHT / 2);
 }
