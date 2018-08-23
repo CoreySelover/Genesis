@@ -19,6 +19,8 @@ public:
 
     void draw();
 
+    // Getters and Setters
+
     Texture* texture(std::string filePath);
 
     ~Map();

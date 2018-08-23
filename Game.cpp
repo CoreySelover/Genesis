@@ -16,18 +16,19 @@ Game::Game() {}
 BootError Game::boot() {
 
     // Window
-    m_window.create(sf::VideoMode(1200, 600), "Genesis");
+    m_window.create(sf::VideoMode::getFullscreenModes()[0], "Genesis", sf::Style::Fullscreen);
 
     // Set up managers
     m_managers[TEXTURE_MANAGER] = new Manager();
     m_managers[ENTITY_MANAGER] = new Manager();
     m_managers[SCREEN_MANAGER] = new Manager();
 
-    m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", sf::seconds(3.0f)));
-    m_managers[SCREEN_MANAGER]->add("disclaimer", new Splash(this, "resources/textures/splash2.png", sf::seconds(3.0f)));
+    // TODO - turn these back on for release.
+    //m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", sf::seconds(3.0f)));
+    //m_managers[SCREEN_MANAGER]->add("disclaimer", new Splash(this, "resources/textures/splash2.png", sf::seconds(3.0f)));
     m_managers[SCREEN_MANAGER]->add("map", new Map(this));
-    m_screenQueue.push("happy_rock");
-    m_screenQueue.push("disclaimer");
+    //m_screenQueue.push("happy_rock");
+    //m_screenQueue.push("disclaimer");
     m_screenQueue.push("map");
 
     m_running = true;

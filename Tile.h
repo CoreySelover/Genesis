@@ -24,7 +24,13 @@ public:
 
     ~Tile();
 
+    // Getters and Setters
+
     sf::Sprite& sprite();
+
+    void setSpriteTexture();
+
+    void changeType(TileType newType);
 
 private:
     Map* m_map;

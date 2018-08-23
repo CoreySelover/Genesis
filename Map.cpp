@@ -19,12 +19,16 @@ Map::Map(Game* game, bool active)
 }
 
 void Map::populateStartingMap() {
+    // Create blank tiles
     for(int x = 0; x < Constants::MAP_WIDTH; x++) {
         m_grid.push_back(std::vector<Tile*>());
         for(int y = 0; y < Constants::MAP_HEIGHT; y++) {
             m_grid[x].push_back(new Tile(this, x, y));
         }
     }
+
+    // Make some grass.
+    m_grid[3][4]->changeType(TILE_GRASS);
 }
 
 void Map::update() {
