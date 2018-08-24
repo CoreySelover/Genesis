@@ -44,24 +44,6 @@ BootError Game::boot() {
     return BOOT_SUCCESS;
 }
 
-void Game::loadGameValues() {
-    std::ifstream input( "data.ini" );
-    for( std::string line; getline( input, line ); )
-    {
-        std::string first = line.substr(0, line.find("="));
-        std::string second = line.substr(line.find("=") + 1);
-
-        /* The above code will set first and second to the same value if
-         * the line contains no = sign.  In other words, if the line is
-         * something like [Map], we don't want to parse it and we can
-         * ignore it.
-         */
-        if(first.compare(second) != 0) {
-            m_gameValues[first] = second;
-        }
-    }
-}
-
 RunError Game::run() {
 
     while(m_running) {
@@ -192,6 +174,65 @@ int Game::tileWidth() { return std::atoi(m_gameValues["tile_width"].c_str()); }
 int Game::tileHeight() { return std::atoi(m_gameValues["tile_height"].c_str()); }
 
 ///////////////////////////////////
+//              Console          //
+///////////////////////////////////
+
+void Game::runCommand(std::string command) {
+    std::vector<std::string>::iterator itr;
+    for(itr = m_commands.begin(); itr != m_commands.end(); itr++) {
+        if((*itr) == command) {
+            // Do stuff accordingly
+            m_console->clean();
+            m_console->toggle();
+            return;
+        }
+    }
+    m_console->displayError("Command not found or syntax invalid:", command);
+}
+
+void Game::assignGameValue(std::string variable, std::string value, bool saveToDisk) {
+    if(m_gameValues.count(variable)) {
+        m_gameValues[variable] = value;
+        if(saveToDisk) {
+            saveGameValues();
+        }
+        m_console->clean();
+        m_console->toggle();
+    }
+    else {
+        m_console->displayError("Variable unknown or value not valid:", value);
+    }
+}
+
+void Game::loadGameValues() {
+    std::ifstream input( "data.ini" );
+    for( std::string line; getline( input, line ); )
+    {
+        std::string first = line.substr(0, line.find("="));
+        std::string second = line.substr(line.find("=") + 1);
+
+        /* The above code will set first and second to the same value if
+         * the line contains no = sign.  In other words, if the line is
+         * something like [Map], we don't want to parse it and we can
+         * ignore it.
+         */
+        if(first.compare(second) != 0) {
+            m_gameValues[first] = second;
+        }
+    }
+}
+
+void Game::saveGameValues() {
+    std::ofstream output;
+    output.open("data.ini");
+    std::map<std::string, std::string>::iterator itr;
+    for (itr = m_gameValues.begin(); itr != m_gameValues.end(); itr++) {
+        output<< itr->first << "=" << itr->second << std::endl;
+    }
+    output.close();
+}
+
+///////////////////////////////////
 //              Util             //
 ///////////////////////////////////
 
@@ -201,5 +242,7 @@ void Game::printGameValues() {
         std::cout << itr->first << "=" << itr->second << std::endl;
     }
 }
+
+
 
 

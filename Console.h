@@ -16,6 +16,12 @@ public:
 
     void handle(sf::Event event);
 
+    void interpret();
+
+    void displayError(std::string message, std::string error);
+
+    void clean();
+
     void update();
 
     void draw();

@@ -7,6 +7,7 @@
 // Standard library
 #include <map>
 #include <queue>
+#include <vector>
 
 // External libraries
 #include <SFML/Graphics.hpp>
@@ -46,8 +47,6 @@ public:
     Game();
 
     BootError boot();
-
-    void loadGameValues();
 
     RunError run();
 
@@ -91,6 +90,16 @@ public:
 
     int tileHeight();
 
+    // Console
+
+    void runCommand(std::string command);
+
+    void assignGameValue(std::string variable, std::string value, bool saveToDisk);
+
+    void loadGameValues();
+
+    void saveGameValues();
+
     // Util
 
     void printGameValues();
@@ -118,6 +127,8 @@ private:
      * can be easily manipulated through the console.
      */
     std::map<std::string, std::string> m_gameValues;
+
+    std::vector<std::string> m_commands;
 
 };
 #endif // GAME_H
