@@ -7,6 +7,7 @@
 #include <fstream>
 
 // Project files
+#include "Console.h"
 #include "Manager.h"
 #include "Entity.h"
 #include "Splash.h"
@@ -25,6 +26,9 @@ BootError Game::boot() {
     // Set up managers
     m_managers[TEXTURE_MANAGER] = new Manager();
     m_managers[SCREEN_MANAGER] = new Manager();
+
+    // Console
+    m_console = new Console(this);
 
     // TODO - turn these back on for release.
     //m_managers[SCREEN_MANAGER]->add("happy_rock", new Splash(this, "resources/textures/splash.png", sf::seconds(3.0f)));
@@ -55,11 +59,6 @@ void Game::loadGameValues() {
             m_gameValues[first] = second;
         }
     }
-
-    std::map<std::string, std::string>::iterator itr;
-    for (itr = m_gameValues.begin(); itr != m_gameValues.end(); itr++) {
-        std::cout << itr->first << "=" << itr->second << std::endl;
-    }
 }
 
 RunError Game::run() {
@@ -84,9 +83,13 @@ RunError Game::run() {
         std::string currentScreen = m_screenQueue.front();
         m_managers[SCREEN_MANAGER]->get(currentScreen)->update();
 
-        // Draw
+        // Draw game objects, screens, etc.
         m_window.clear();
         m_managers[SCREEN_MANAGER]->get(currentScreen)->draw();
+
+        // Draw console
+        m_window.setView(m_window.getDefaultView());
+        m_console->draw();
         m_window.display();
     }
 
@@ -96,6 +99,8 @@ RunError Game::run() {
 ShutdownError Game::shutdown() {
 
     m_running = false;
+
+    delete m_console;
 
     // Shutdown managers
     std::map<ManagerType, Manager*>::iterator itr;
@@ -143,50 +148,43 @@ Texture* Game::texture(std::string name) {
     return static_cast<Texture*>(m_managers[TEXTURE_MANAGER]->get(name));
 }
 
-Texture* Game::addTexture(std::string filePath) {
-    return static_cast<Texture*>(m_managers[TEXTURE_MANAGER]->add(filePath, new Texture(this, filePath)));
+Texture* Game::addTexture(std::string filePath, bool repeated) {
+    return static_cast<Texture*>(m_managers[TEXTURE_MANAGER]->add(filePath, new Texture(this, filePath, repeated)));
 }
 
 Screen* Game::screen(std::string name) {
     return static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(name));
 }
 
-void Game::setView(sf::View view) {
-    m_window.setView(view);
-}
+void Game::setView(sf::View view) { m_window.setView(view); }
 
-sf::Vector2f Game::windowCenter() {
-    return sf::Vector2f(m_window.getSize().x / 2, m_window.getSize().y / 2);
-}
+sf::Vector2f Game::windowCenter() { return sf::Vector2f(m_window.getSize().x / 2, m_window.getSize().y / 2); }
 
-const sf::View& Game::defaultView() {
-    return m_window.getDefaultView();
-}
+sf::Vector2u Game::windowSize() { return m_window.getSize(); }
 
-sf::Vector2i Game::mapCenterAsPixels() {
-    return sf::Vector2i(mapWidth() * tileWidth() / 2,
-                        mapHeight() * tileHeight() / 2);
-}
+const sf::View& Game::defaultView() { return m_window.getDefaultView(); }
 
-sf::Vector2i Game::mapCenterAsCoordinates() {
-    return sf::Vector2i(mapWidth() / 2,
-                        mapHeight() / 2);
-}
+sf::Vector2i Game::mapCenterAsPixels() { return sf::Vector2i(mapWidth() * tileWidth() / 2, mapHeight() * tileHeight() / 2); }
 
-int Game::mapWidth() {
-    return std::atoi(m_gameValues["map_width"].c_str());
-}
+sf::Vector2i Game::mapCenterAsCoordinates() { return sf::Vector2i(mapWidth() / 2, mapHeight() / 2); }
 
-int Game::mapHeight() {
-    return std::atoi(m_gameValues["map_height"].c_str());
-}
+int Game::mapWidth() { return std::atoi(m_gameValues["map_width"].c_str()); }
 
-int Game::tileWidth() {
-    return std::atoi(m_gameValues["tile_width"].c_str());
-}
+int Game::mapHeight() { return std::atoi(m_gameValues["map_height"].c_str()); }
 
-int Game::tileHeight() {
-    return std::atoi(m_gameValues["tile_height"].c_str());
+int Game::tileWidth() { return std::atoi(m_gameValues["tile_width"].c_str()); }
+
+int Game::tileHeight() { return std::atoi(m_gameValues["tile_height"].c_str()); }
+
+///////////////////////////////////
+//              Util             //
+///////////////////////////////////
+
+void Game::printGameValues() {
+    std::map<std::string, std::string>::iterator itr;
+    for (itr = m_gameValues.begin(); itr != m_gameValues.end(); itr++) {
+        std::cout << itr->first << "=" << itr->second << std::endl;
+    }
 }
 
 

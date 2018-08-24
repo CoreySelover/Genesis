@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 
 // Project files
+class Console;
 class Manager;
 class Entity;
 class Texture;
@@ -66,13 +67,15 @@ public:
 
     Entity* entity(std::string name);
 
-    Texture* addTexture(std::string filePath);
+    Texture* addTexture(std::string filePath, bool repeated = false);
 
     Texture* texture(std::string name);
 
     Screen* screen(std::string name);
 
     sf::Vector2f windowCenter();
+
+    sf::Vector2u windowSize();
 
     const sf::View& defaultView();
 
@@ -88,6 +91,10 @@ public:
 
     int tileHeight();
 
+    // Util
+
+    void printGameValues();
+
 private:
     // Window and related logic
 
@@ -95,7 +102,7 @@ private:
 
     sf::View m_view;
 
-    bool m_running;
+    Console* m_console;
 
     // Managers
 
@@ -104,6 +111,8 @@ private:
     std::queue<std::string> m_screenQueue;
 
     // Game logic
+
+    bool m_running;
 
     /* We store game values in this map, accessible by std::string so that they
      * can be easily manipulated through the console.

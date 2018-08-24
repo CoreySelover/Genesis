@@ -11,7 +11,7 @@
 
 class Texture : public ManagedObject {
 public:
-    Texture(Game* game, std::string filePath);
+    Texture(Game* game, std::string filePath, bool repeated = false);
 
     void update() {}
 

@@ -22,6 +22,9 @@ public:
     virtual void print() {}
 
 protected:
+    // TODO - can we do better than friend classes?
+    friend class Tile;
+
     Game* m_game;
 };
 

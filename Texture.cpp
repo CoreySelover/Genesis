@@ -3,10 +3,11 @@
 
 #include "Texture.h"
 
-Texture::Texture(Game* game, std::string filePath)
+Texture::Texture(Game* game, std::string filePath, bool repeated)
     : ManagedObject(game) {
 
     m_texture.loadFromFile(filePath);
+    m_texture.setRepeated(repeated);
 }
 
 sf::Texture& Texture::get() {

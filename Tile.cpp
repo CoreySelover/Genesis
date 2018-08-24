@@ -3,7 +3,7 @@
 
 #include "Tile.h"
 
-#include "Constants.h"
+#include "Game.h"
 #include "Map.h"
 #include "Texture.h"
 
@@ -16,7 +16,7 @@ Tile::Tile(Map* map, int x, int y, TileType type)
     setSpriteTexture();
 
     m_sprite.setOrigin(sf::Vector2f(0,0));
-    m_sprite.setPosition(m_x * Constants::TILE_WIDTH, m_y * Constants::TILE_HEIGHT);
+    m_sprite.setPosition(m_x * m_map->m_game->tileWidth(), m_y * m_map->m_game->tileHeight());
 }
 
 Tile::~Tile() { }
@@ -51,10 +51,10 @@ void Tile::changeType(TileType newType) {
 }
 
 sf::Vector2f Tile::coordinatesAsPixels() {
-    return sf::Vector2f(m_x * Constants::TILE_WIDTH, m_y * Constants::TILE_HEIGHT);
+    return sf::Vector2f(m_x * m_map->m_game->tileWidth(), m_y * m_map->m_game->tileHeight());
 }
 
 sf::Vector2f Tile::centerCoordsAsPixels() {
-    return sf::Vector2f(m_x * Constants::TILE_WIDTH + (Constants::TILE_WIDTH / 2),
-                        m_y * Constants::TILE_HEIGHT + (Constants::TILE_HEIGHT / 2));
+    return sf::Vector2f(m_x * m_map->m_game->tileWidth() + (m_map->m_game->tileWidth() / 2),
+                        m_y * m_map->m_game->tileHeight() + (m_map->m_game->tileHeight() / 2));
 }
