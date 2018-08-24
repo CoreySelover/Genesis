@@ -6,12 +6,15 @@
 
 // External libs
 #include <SFML/Graphics.hpp>
+#include <sstream>
 
 class Game;
 
 class Console {
 public:
     Console(Game* game);
+
+    void handle(sf::Event event);
 
     void update();
 
@@ -28,7 +31,11 @@ private:
 
     sf::Sprite m_sprite;
 
+    std::stringstream m_stream;
+
     sf::Text m_text;
+
+    sf::Font m_arial;
 
     bool m_visible;
 };

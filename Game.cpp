@@ -21,7 +21,8 @@ BootError Game::boot() {
     loadGameValues();
 
     // Window
-    m_window.create(sf::VideoMode::getFullscreenModes()[0], "Genesis", sf::Style::Fullscreen);
+    //m_window.create(sf::VideoMode::getFullscreenModes()[0], "Genesis", sf::Style::Fullscreen);
+    m_window.create(sf::VideoMode(800,600), "Genesis");
 
     // Set up managers
     m_managers[TEXTURE_MANAGER] = new Manager();
@@ -70,14 +71,18 @@ RunError Game::run() {
             if (event.type == sf::Event::Closed) {
                 shutdown();
             }
-            if (event.type == sf::Event::KeyPressed) {
-
-                switch(event.key.code) {
-                    case sf::Keyboard::Tilde:
-                        m_console->toggle();
-                        break;
-                    default:
-                        break;
+            if (event.type == sf::Event::TextEntered && m_console->active()) {
+                m_console->handle(event);
+            }
+            else if (event.type == sf::Event::KeyPressed) {
+                if(event.key.code == sf::Keyboard::Tilde) {
+                    m_console->toggle();
+                }
+                else if(!m_console->active()) {
+                    switch(event.key.code) {
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -91,6 +96,7 @@ RunError Game::run() {
         // Update managers as appropriate.
         std::string currentScreen = m_screenQueue.front();
         m_managers[SCREEN_MANAGER]->get(currentScreen)->update();
+        m_console->update();
 
         // Draw game objects, screens, etc.
         m_window.clear();
