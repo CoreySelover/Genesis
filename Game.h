@@ -46,6 +46,8 @@ public:
 
     BootError boot();
 
+    void loadGameValues();
+
     RunError run();
 
     ShutdownError shutdown();

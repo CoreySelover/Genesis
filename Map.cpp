@@ -38,7 +38,11 @@ void Map::populateStartingMap(int seed) {
 
     sf::Vector2f playerPos;
 
-    // Default map.
+    /* Default map.
+     *
+     * If this line fails, it means Tiles weren't populated correctly above.
+     * Check data.ini for weirdness.
+     */
     m_grid[0][0]->changeType(TILE_GRASS);
     if(seed == 1) {
         sf::Vector2i centerOfMap = m_game->mapCenterAsCoordinates();

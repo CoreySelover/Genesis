@@ -3,6 +3,9 @@
 
 #include "Game.h"
 
+// External libs
+#include <fstream>
+
 // Project files
 #include "Manager.h"
 #include "Entity.h"
@@ -14,11 +17,7 @@ Game::Game() {}
 
 BootError Game::boot() {
 
-    // TODO - load from data.ini
-    m_gameValues["map_width"] = "49";
-    m_gameValues["map_height"] = "49";
-    m_gameValues["tile_width"] = "64";
-    m_gameValues["tile_height"] = "64";
+    loadGameValues();
 
     // Window
     m_window.create(sf::VideoMode::getFullscreenModes()[0], "Genesis", sf::Style::Fullscreen);
@@ -38,6 +37,29 @@ BootError Game::boot() {
     m_running = true;
 
     return BOOT_SUCCESS;
+}
+
+void Game::loadGameValues() {
+    std::ifstream input( "data.ini" );
+    for( std::string line; getline( input, line ); )
+    {
+        std::string first = line.substr(0, line.find("="));
+        std::string second = line.substr(line.find("=") + 1);
+
+        /* The above code will set first and second to the same value if
+         * the line contains no = sign.  In other words, if the line is
+         * something like [Map], we don't want to parse it and we can
+         * ignore it.
+         */
+        if(first.compare(second) != 0) {
+            m_gameValues[first] = second;
+        }
+    }
+
+    std::map<std::string, std::string>::iterator itr;
+    for (itr = m_gameValues.begin(); itr != m_gameValues.end(); itr++) {
+        std::cout << itr->first << "=" << itr->second << std::endl;
+    }
 }
 
 RunError Game::run() {

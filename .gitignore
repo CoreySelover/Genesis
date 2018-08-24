@@ -3,6 +3,7 @@
 *.layout
 *.cbp
 *.depend
+data.ini
 bin
 obj
 resources
