@@ -7,7 +7,8 @@
 #include "Texture.h"
 
 Console::Console(Game* game)
-    : m_game(game) {
+    : m_game(game),
+      m_visible(false) {
 
     m_sprite.setTexture(m_game->addTexture("resources/textures/TEXTURE_CONSOLE.png", true)->get());
     m_sprite.setOrigin(sf::Vector2f(0,0));
@@ -18,8 +19,14 @@ Console::Console(Game* game)
 void Console::update() {}
 
 void Console::draw() {
+    if(!m_visible) return;
+
     m_game->draw(m_sprite);
     m_game->draw(m_text);
 }
+
+void Console::toggle() { m_visible = !m_visible; }
+
+bool Console::active() { return m_visible; }
 
 Console::~Console() {}

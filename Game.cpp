@@ -66,10 +66,19 @@ RunError Game::run() {
     while(m_running) {
 
         sf::Event event;
-        while (m_window.pollEvent(event))
-        {
+        while (m_window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 shutdown();
+            }
+            if (event.type == sf::Event::KeyPressed) {
+
+                switch(event.key.code) {
+                    case sf::Keyboard::Tilde:
+                        m_console->toggle();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

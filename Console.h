@@ -17,6 +17,10 @@ public:
 
     void draw();
 
+    void toggle();
+
+    bool active();
+
     ~Console();
 
 private:
@@ -25,6 +29,8 @@ private:
     sf::Sprite m_sprite;
 
     sf::Text m_text;
+
+    bool m_visible;
 };
 
 #endif // CONSOLE_H
