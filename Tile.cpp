@@ -19,6 +19,8 @@ Tile::Tile(Map* map, int x, int y, TileType type)
     m_sprite.setPosition(m_x * Constants::TILE_WIDTH, m_y * Constants::TILE_HEIGHT);
 }
 
+Tile::~Tile() { }
+
 void Tile::update() {}
 
 sf::Sprite& Tile::sprite() {
@@ -50,4 +52,9 @@ void Tile::changeType(TileType newType) {
 
 sf::Vector2f Tile::coordinatesAsPixels() {
     return sf::Vector2f(m_x * Constants::TILE_WIDTH, m_y * Constants::TILE_HEIGHT);
+}
+
+sf::Vector2f Tile::centerCoordsAsPixels() {
+    return sf::Vector2f(m_x * Constants::TILE_WIDTH + (Constants::TILE_WIDTH / 2),
+                        m_y * Constants::TILE_HEIGHT + (Constants::TILE_HEIGHT / 2));
 }

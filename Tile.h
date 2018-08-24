@@ -34,6 +34,8 @@ public:
 
     sf::Vector2f coordinatesAsPixels();
 
+    sf::Vector2f centerCoordsAsPixels();
+
 private:
     Map* m_map;
 

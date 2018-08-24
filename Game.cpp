@@ -6,7 +6,7 @@
 // Project files
 #include "Constants.h"
 #include "Manager.h"
-#include "Player.h"
+#include "Entity.h"
 #include "Splash.h"
 #include "Map.h"
 #include "Texture.h"
