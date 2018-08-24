@@ -74,6 +74,18 @@ public:
 
     const sf::View& defaultView();
 
+    sf::Vector2i mapCenterAsPixels();
+
+    sf::Vector2i mapCenterAsCoordinates();
+
+    int mapWidth();
+
+    int mapHeight();
+
+    int tileWidth();
+
+    int tileHeight();
+
 private:
     // Window and related logic
 
@@ -88,6 +100,13 @@ private:
     std::map<ManagerType, Manager*> m_managers;
 
     std::queue<std::string> m_screenQueue;
+
+    // Game logic
+
+    /* We store game values in this map, accessible by std::string so that they
+     * can be easily manipulated through the console.
+     */
+    std::map<std::string, std::string> m_gameValues;
 
 };
 #endif // GAME_H

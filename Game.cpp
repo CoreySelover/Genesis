@@ -4,7 +4,6 @@
 #include "Game.h"
 
 // Project files
-#include "Constants.h"
 #include "Manager.h"
 #include "Entity.h"
 #include "Splash.h"
@@ -14,6 +13,12 @@
 Game::Game() {}
 
 BootError Game::boot() {
+
+    // TODO - load from data.ini
+    m_gameValues["map_width"] = "49";
+    m_gameValues["map_height"] = "49";
+    m_gameValues["tile_width"] = "64";
+    m_gameValues["tile_height"] = "64";
 
     // Window
     m_window.create(sf::VideoMode::getFullscreenModes()[0], "Genesis", sf::Style::Fullscreen);
@@ -134,6 +139,32 @@ sf::Vector2f Game::windowCenter() {
 
 const sf::View& Game::defaultView() {
     return m_window.getDefaultView();
+}
+
+sf::Vector2i Game::mapCenterAsPixels() {
+    return sf::Vector2i(mapWidth() * tileWidth() / 2,
+                        mapHeight() * tileHeight() / 2);
+}
+
+sf::Vector2i Game::mapCenterAsCoordinates() {
+    return sf::Vector2i(mapWidth() / 2,
+                        mapHeight() / 2);
+}
+
+int Game::mapWidth() {
+    return std::atoi(m_gameValues["map_width"].c_str());
+}
+
+int Game::mapHeight() {
+    return std::atoi(m_gameValues["map_height"].c_str());
+}
+
+int Game::tileWidth() {
+    return std::atoi(m_gameValues["tile_width"].c_str());
+}
+
+int Game::tileHeight() {
+    return std::atoi(m_gameValues["tile_height"].c_str());
 }
 
 
