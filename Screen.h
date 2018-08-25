@@ -23,15 +23,9 @@ public:
 
     virtual void draw() {}
 
+    virtual void processInput(sf::Event event) {}
+
     ~Screen() {}
-
-    // Every Screen has a debug console that can be written to.
-
-    void writeToConsole(std::string);
-
-    void turnConsoleOn();
-
-    void turnConsoleOff();
 
     void deactivate();
 
@@ -45,12 +39,6 @@ public:
 
 private:
     bool m_active;
-
-    // Console
-
-    sf::Text m_console;
-
-    bool m_consoleVisible;
 
     // Clock
 

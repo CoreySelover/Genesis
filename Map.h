@@ -20,6 +20,8 @@ public:
 
     void draw();
 
+    void processInput(sf::Event event);
+
     // Getters and Setters
 
     Texture* texture(std::string filePath);

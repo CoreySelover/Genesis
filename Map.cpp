@@ -81,6 +81,10 @@ void Map::draw() {
     m_entMan->draw();
 }
 
+void Map::processInput(sf::Event event) {
+    std::cout << "hi" << std::endl;
+}
+
 Map::~Map() {
     // Delete entities
     m_entMan->shutdown();

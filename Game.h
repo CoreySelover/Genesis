@@ -62,6 +62,10 @@ public:
 
     void setView(sf::View view);
 
+    // Controls
+
+    void processInput(sf::Event event);
+
     // Getters and setters
 
     Entity* entity(std::string name);
@@ -118,6 +122,8 @@ private:
     std::map<ManagerType, Manager*> m_managers;
 
     std::queue<std::string> m_screenQueue;
+
+    std::string m_currentScreen;
 
     // Game logic
 

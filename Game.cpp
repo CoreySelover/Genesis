@@ -50,23 +50,7 @@ RunError Game::run() {
 
         sf::Event event;
         while (m_window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                shutdown();
-            }
-            if (event.type == sf::Event::TextEntered && m_console->active()) {
-                m_console->handle(event);
-            }
-            else if (event.type == sf::Event::KeyPressed) {
-                if(event.key.code == sf::Keyboard::Tilde) {
-                    m_console->toggle();
-                }
-                else if(!m_console->active()) {
-                    switch(event.key.code) {
-                        default:
-                            break;
-                    }
-                }
-            }
+            processInput(event);
         }
 
         // No more screens to display.  Time to quit.
@@ -76,13 +60,13 @@ RunError Game::run() {
         if(!m_running) return RUN_SUCCESS;
 
         // Update managers as appropriate.
-        std::string currentScreen = m_screenQueue.front();
-        m_managers[SCREEN_MANAGER]->get(currentScreen)->update();
+        m_currentScreen = m_screenQueue.front();
+        m_managers[SCREEN_MANAGER]->get(m_currentScreen)->update();
         m_console->update();
 
         // Draw game objects, screens, etc.
         m_window.clear();
-        m_managers[SCREEN_MANAGER]->get(currentScreen)->draw();
+        m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
 
         // Draw console
         m_window.setView(m_window.getDefaultView());
@@ -91,6 +75,30 @@ RunError Game::run() {
     }
 
     return RUN_SUCCESS;
+}
+
+void Game::processInput(sf::Event event) {
+    if (event.type == sf::Event::Closed) {
+        shutdown();
+    }
+    // Keyboard
+    if (event.type == sf::Event::TextEntered && m_console->active()) {
+        m_console->handle(event);
+    }
+    else if (event.type == sf::Event::KeyPressed) {
+        // Meta keys
+        if(event.key.code == sf::Keyboard::Tilde) {
+            m_console->toggle();
+        }
+        // Player control or GUI interaction
+        else if(!m_console->active()) {
+            static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_currentScreen))->processInput(event);
+        }
+    }
+    // Mouse
+    else if (event.type == sf::Event::MouseButtonPressed) {
+        static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_currentScreen))->processInput(event);
+    }
 }
 
 ShutdownError Game::shutdown() {
@@ -223,10 +231,12 @@ void Game::loadGameValues() {
 }
 
 void Game::saveGameValues() {
+    std::cout << "Saving values" << std::endl;
     std::ofstream output;
     output.open("data.ini");
     std::map<std::string, std::string>::iterator itr;
     for (itr = m_gameValues.begin(); itr != m_gameValues.end(); itr++) {
+        std::cout << "Writing: " << itr->first << "=" << itr->second << std::endl;
         output<< itr->first << "=" << itr->second << std::endl;
     }
     output.close();
