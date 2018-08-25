@@ -17,8 +17,19 @@ public:
 
     void draw();
 
+    // Input and movement
+
+    void processInput(sf::Event event);
+
+    void moveTo(sf::Vector2i coords);
+
 private:
+    // TODO - This should probably be in Entity or some other base class
     sf::Sprite m_sprite;
+
+    sf::Vector2i m_targetLocation;
+
+    int m_maxSpeed;
 };
 
 #endif // PLAYER_H

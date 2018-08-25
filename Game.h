@@ -86,6 +86,8 @@ public:
 
     sf::Vector2i mapCenterAsCoordinates();
 
+    sf::Vector2i worldCoords(int x, int y);
+
     int mapWidth();
 
     int mapHeight();

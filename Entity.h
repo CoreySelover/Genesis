@@ -39,7 +39,7 @@ public:
 
     void setMove(bool canMove);
 
-private:
+protected:
 
     // Movement related
 

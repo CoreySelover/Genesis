@@ -82,7 +82,16 @@ void Map::draw() {
 }
 
 void Map::processInput(sf::Event event) {
-    std::cout << "hi" << std::endl;
+    // User clicked on a GUI element
+    if(event.type == sf::Event::MouseButtonPressed) {
+        // TODO - implement GUI manager (subclass?)
+        //if(m_guiMan->processInput(event)) {
+        //    return;
+        //}
+    }
+
+    // User clicked in game world
+    static_cast<Player*>(m_entMan->get("Player"))->processInput(event);
 }
 
 Map::~Map() {

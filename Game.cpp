@@ -173,6 +173,9 @@ sf::Vector2i Game::mapCenterAsPixels() { return sf::Vector2i(mapWidth() * tileWi
 
 sf::Vector2i Game::mapCenterAsCoordinates() { return sf::Vector2i(mapWidth() / 2, mapHeight() / 2); }
 
+// TODO - this is broken
+sf::Vector2i Game::worldCoords(int x, int y) { return sf::Vector2i(m_window.getView().getCenter().x + x, m_window.getView().getCenter().y + y); }
+
 int Game::mapWidth() { return std::atoi(m_gameValues["map_width"].c_str()); }
 
 int Game::mapHeight() { return std::atoi(m_gameValues["map_height"].c_str()); }
