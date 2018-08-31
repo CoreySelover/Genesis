@@ -23,7 +23,6 @@ Map::Map(Game* game, bool active, int mapSeed)
     // Create and populate grid
     populateStartingMap(mapSeed);
 
-
 }
 
 void Map::populateStartingMap(int seed) {
@@ -43,7 +42,6 @@ void Map::populateStartingMap(int seed) {
      * If this line fails, it means Tiles weren't populated correctly above.
      * Check data.ini for weirdness.
      */
-    m_grid[0][0]->changeType(TILE_GRASS);
     if(seed == 1) {
         sf::Vector2i centerOfMap = m_game->mapCenterAsCoordinates();
         m_grid[centerOfMap.x][centerOfMap.y]->changeType(TILE_GRASS);
@@ -68,6 +66,7 @@ void Map::update() {
 }
 
 void Map::draw() {
+
     m_game->setView(m_view);
 
     // Draw from "back" (top) of the map "forward" (down)

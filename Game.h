@@ -86,7 +86,7 @@ public:
 
     sf::Vector2i mapCenterAsCoordinates();
 
-    sf::Vector2i worldCoords(int x, int y);
+    sf::Vector2f worldCoords(int x, int y);
 
     int mapWidth();
 
@@ -114,8 +114,6 @@ private:
     // Window and related logic
 
     sf::RenderWindow m_window;
-
-    sf::View m_view;
 
     Console* m_console;
 

@@ -21,13 +21,13 @@ public:
 
     void processInput(sf::Event event);
 
-    void moveTo(sf::Vector2i coords);
+    void moveTo(sf::Vector2f coords);
 
 private:
     // TODO - This should probably be in Entity or some other base class
     sf::Sprite m_sprite;
 
-    sf::Vector2i m_targetLocation;
+    sf::Vector2f m_targetLocation;
 
     int m_maxSpeed;
 };

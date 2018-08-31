@@ -69,7 +69,7 @@ RunError Game::run() {
         m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
 
         // Draw console
-        m_window.setView(m_window.getDefaultView());
+        //m_window.setView(m_window.getDefaultView());
         m_console->draw();
         m_window.display();
     }
@@ -173,8 +173,7 @@ sf::Vector2i Game::mapCenterAsPixels() { return sf::Vector2i(mapWidth() * tileWi
 
 sf::Vector2i Game::mapCenterAsCoordinates() { return sf::Vector2i(mapWidth() / 2, mapHeight() / 2); }
 
-// TODO - this is broken
-sf::Vector2i Game::worldCoords(int x, int y) { return sf::Vector2i(m_window.getView().getCenter().x + x, m_window.getView().getCenter().y + y); }
+sf::Vector2f Game::worldCoords(int x, int y) { return m_window.mapPixelToCoords(sf::Vector2i(x,y)); }
 
 int Game::mapWidth() { return std::atoi(m_gameValues["map_width"].c_str()); }
 

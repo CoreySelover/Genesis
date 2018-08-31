@@ -14,12 +14,10 @@ Player::Player(Game* game, int x, int y, bool canMove)
     m_sprite.setPosition(x, y);
 
     m_maxSpeed = 3;
-    m_targetLocation = sf::Vector2i(x, y);
+    m_targetLocation = sf::Vector2f(x, y);
 }
 
 void Player::update() {
-    //std::cout << m_xPosition << ", " << m_yPosition << std::endl;
-
     // X
     if(m_xPosition < m_targetLocation.x) {
         m_xPosition += m_maxSpeed;
@@ -55,6 +53,6 @@ void Player::processInput(sf::Event event) {
     }
 }
 
-void Player::moveTo(sf::Vector2i coords) {
+void Player::moveTo(sf::Vector2f coords) {
     m_targetLocation = coords;
 }
