@@ -18,20 +18,24 @@ Player::Player(Game* game, int x, int y, bool canMove)
 }
 
 void Player::update() {
+
+    float remainingX = std::min(m_maxSpeed, abs(m_xPosition - m_targetLocation.x));
+    float remainingY = std::min(m_maxSpeed, abs(m_yPosition - m_targetLocation.y));
+
     // X
     if(m_xPosition < m_targetLocation.x) {
-        m_xPosition += m_maxSpeed;
+        m_xPosition += remainingX;
     }
     else if (m_xPosition > m_targetLocation.x) {
-        m_xPosition -= m_maxSpeed;
+        m_xPosition -= remainingX;
     }
 
     // Y
     if(m_yPosition < m_targetLocation.y) {
-        m_yPosition += m_maxSpeed;
+        m_yPosition += remainingY;
     }
     else if (m_yPosition > m_targetLocation.y) {
-        m_yPosition -= m_maxSpeed;
+        m_yPosition -= remainingY;
     }
 
     m_sprite.setPosition(sf::Vector2f(m_xPosition, m_yPosition));
