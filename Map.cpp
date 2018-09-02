@@ -63,6 +63,8 @@ void Map::populateStartingMap(int seed) {
 
 void Map::update() {
     m_entMan->update();
+
+    m_view.setCenter(static_cast<Player*>(m_entMan->get("Player"))->getPosition());
 }
 
 void Map::draw() {

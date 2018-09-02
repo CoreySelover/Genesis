@@ -11,16 +11,15 @@ Player::Player(Game* game, int x, int y, bool canMove)
     : Entity(game, x, y, canMove){
 
     m_sprite.setTexture(m_game->addTexture("resources/textures/TEXTURE_PLAYER.png")->get());
-    m_sprite.setOrigin(sf::Vector2f(0,0));
-    m_sprite.setPosition(x, y);
-
-    m_maxSpeed = 3;
-    m_targetLocation = sf::Vector2f(x, y);
+    // TODO - un-hard code this
+    m_sprite.setOrigin(sf::Vector2f(32,32));
+    m_maxSpeed = 5;
+    m_targetLocation = m_position;
 }
 
 void Player::update() {
 
-    if(abs(Tool::distance(m_targetLocation, m_position)) > 0.5) {
+    if(abs(Tool::distance(m_targetLocation, m_position)) > Tool::ALLOWED_POSITION_DISCREPANCY) {
         float xDiff = m_position.x - m_targetLocation.x;
         float deltaX = m_maxSpeed * xDiff / Tool::distance(m_position, m_targetLocation);
         float yDiff = m_position.y - m_targetLocation.y;
