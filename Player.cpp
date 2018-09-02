@@ -4,6 +4,7 @@
 #include "Player.h"
 
 #include "Game.h"
+#include "Map.h"
 #include "Texture.h"
 #include "Tool.h"
 
@@ -26,6 +27,8 @@ void Player::update() {
         float deltaY = m_maxSpeed * yDiff / Tool::distance(m_position, m_targetLocation);
 
         m_position -= sf::Vector2f(deltaX, deltaY);
+
+        static_cast<Map*>(m_game->screen("map"))->checkTile(m_position);
     }
 
     m_sprite.setPosition(m_position);

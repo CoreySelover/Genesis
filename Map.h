@@ -22,6 +22,8 @@ public:
 
     void processInput(sf::Event event);
 
+    void checkTile(sf::Vector2f pixelPosition);
+
     // Getters and Setters
 
     Texture* texture(std::string filePath);

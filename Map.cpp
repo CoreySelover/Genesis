@@ -5,6 +5,7 @@
 
 #include "Game.h"
 #include "Tile.h"
+#include "Tool.h"
 #include "Player.h"
 
 Map::Map(Game* game, bool active, int mapSeed)
@@ -93,6 +94,11 @@ void Map::processInput(sf::Event event) {
 
     // User clicked in game world
     static_cast<Player*>(m_entMan->get("Player"))->processInput(event);
+}
+
+void Map::checkTile(sf::Vector2f pixelPosition) {
+    sf::Vector2i tileCoords = Tool::pixelsToTile(pixelPosition, m_game->tileHeight(), m_game->tileWidth());
+    m_grid[tileCoords.x][tileCoords.y]->changeType(TILE_GRASS);
 }
 
 Map::~Map() {
