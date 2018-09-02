@@ -6,20 +6,13 @@
 Entity::Entity(Game* game, int x, int y, bool canMove = true)
     : ManagedObject(game) {
 
-    setX(x);
-    setY(y);
+    m_position = sf::Vector2f(x, y);
 
     m_canMove = canMove;
 }
 
-int Entity::getX() {
-
-    return m_xPosition;
-}
-
-int Entity::getY() {
-
-    return m_yPosition;
+sf::Vector2f Entity::getPosition() {
+    return m_position;
 }
 
 bool Entity::canMove() {
@@ -27,20 +20,18 @@ bool Entity::canMove() {
     return m_canMove;
 }
 
-bool Entity::setX(int x) {
-
-    if (canMove()) {
-        m_xPosition = x;
+bool Entity::setPosition(float x, float y) {
+    if(m_canMove) {
+        m_position = sf::Vector2f(x, y);
         return true;
     }
 
     return false;
 }
 
-bool Entity::setY(int y) {
-
-    if (canMove()) {
-        m_yPosition = y;
+bool Entity::setPosition(sf::Vector2f pos) {
+    if(m_canMove) {
+        m_position = pos;
         return true;
     }
 

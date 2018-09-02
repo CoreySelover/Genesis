@@ -5,6 +5,7 @@
 
 #include "Game.h"
 #include "Texture.h"
+#include "Tool.h"
 
 Player::Player(Game* game, int x, int y, bool canMove)
     : Entity(game, x, y, canMove){
@@ -19,26 +20,16 @@ Player::Player(Game* game, int x, int y, bool canMove)
 
 void Player::update() {
 
-    float remainingX = std::min(m_maxSpeed, abs(m_xPosition - m_targetLocation.x));
-    float remainingY = std::min(m_maxSpeed, abs(m_yPosition - m_targetLocation.y));
+    if(abs(Tool::distance(m_targetLocation, m_position)) > 0.5) {
+        float xDiff = m_position.x - m_targetLocation.x;
+        float deltaX = m_maxSpeed * xDiff / Tool::distance(m_position, m_targetLocation);
+        float yDiff = m_position.y - m_targetLocation.y;
+        float deltaY = m_maxSpeed * yDiff / Tool::distance(m_position, m_targetLocation);
 
-    // X
-    if(m_xPosition < m_targetLocation.x) {
-        m_xPosition += remainingX;
-    }
-    else if (m_xPosition > m_targetLocation.x) {
-        m_xPosition -= remainingX;
+        m_position -= sf::Vector2f(deltaX, deltaY);
     }
 
-    // Y
-    if(m_yPosition < m_targetLocation.y) {
-        m_yPosition += remainingY;
-    }
-    else if (m_yPosition > m_targetLocation.y) {
-        m_yPosition -= remainingY;
-    }
-
-    m_sprite.setPosition(sf::Vector2f(m_xPosition, m_yPosition));
+    m_sprite.setPosition(m_position);
 }
 
 void Player::draw() {

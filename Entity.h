@@ -7,6 +7,9 @@
  * interact-able.  For example, the Player, a powerup, a hidden event, etc.
  */
 
+// External libraries
+#include <SFML/Graphics.hpp>
+
 #include "Manager.h"
 
 class Game;
@@ -22,9 +25,7 @@ public:
 
     // Getters
 
-    int getX();
-
-    int getY();
+    sf::Vector2f getPosition();
 
     bool canMove();
 
@@ -33,9 +34,9 @@ public:
     /* Returns true if this Entity can move (and has had its position changed)
      * Returns false if this Entity can't move (m_xPosition is unchanged)
      */
-    bool setX(int x);
+    bool setPosition(float x, float y);
 
-    bool setY(int y);
+    bool setPosition(sf::Vector2f pos);
 
     void setMove(bool canMove);
 
@@ -43,9 +44,7 @@ protected:
 
     // Movement related
 
-    int m_xPosition;
-
-    int m_yPosition;
+    sf::Vector2f m_position;
 
     bool m_canMove;
 };
