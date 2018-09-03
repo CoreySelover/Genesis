@@ -14,9 +14,6 @@ Tile::Tile(Map* map, int x, int y, TileType type)
     m_type(type) {
 
     setSpriteTexture();
-
-    m_sprite.setOrigin(sf::Vector2f(0,0));
-    m_sprite.setPosition(m_x * m_map->m_game->tileWidth(), m_y * m_map->m_game->tileHeight());
 }
 
 Tile::~Tile() { }
@@ -28,7 +25,6 @@ sf::Sprite& Tile::sprite() {
 }
 
 void Tile::setSpriteTexture() {
-    // TODO - can't we do this in one line by having an enum for all textures? Is that nuts?
     switch(m_type) {
         case TILE_BLANK:
             m_sprite.setTexture(m_map->texture("resources/textures/TEXTURE_BLANK.png")->get());
@@ -43,6 +39,10 @@ void Tile::setSpriteTexture() {
             m_sprite.setTexture(m_map->texture("resources/textures/TEXTURE_BLANK.png")->get());
             break;
     }
+
+    m_sprite.setOrigin(sf::Vector2f(0,0));
+    m_sprite.setPosition(m_x * m_map->m_game->tileWidth(), m_y * m_map->m_game->tileHeight());
+    m_sprite.setTextureRect(sf::IntRect(0, 0, m_map->m_game->tileWidth(), m_map->m_game->tileHeight()));
 }
 
 void Tile::changeType(TileType newType) {
