@@ -22,7 +22,7 @@ public:
 
     void processInput(sf::Event event);
 
-    void checkTile(sf::Vector2f pixelPosition);
+    void checkTile(sf::Vector2f pixelPosition, int auraRadius);
 
     // Getters and Setters
 

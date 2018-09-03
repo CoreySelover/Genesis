@@ -96,9 +96,12 @@ void Map::processInput(sf::Event event) {
     static_cast<Player*>(m_entMan->get("Player"))->processInput(event);
 }
 
-void Map::checkTile(sf::Vector2f pixelPosition) {
+void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius) {
     sf::Vector2i tileCoords = Tool::pixelsToTile(pixelPosition, m_game->tileHeight(), m_game->tileWidth());
     m_grid[tileCoords.x][tileCoords.y]->changeType(TILE_GRASS);
+    for(int x = tileCoords.x + auraRadius; x >= tileCoords.x - auraRadius; x--) {
+        m_grid[x][tileCoords.y]->changeType(TILE_GRASS);
+    }
 }
 
 Map::~Map() {

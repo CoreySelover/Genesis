@@ -14,8 +14,9 @@ Player::Player(Game* game, int x, int y, bool canMove)
     m_sprite.setTexture(m_game->addTexture("resources/textures/TEXTURE_PLAYER.png")->get());
     // TODO - un-hard code this
     m_sprite.setOrigin(sf::Vector2f(32,32));
-    m_maxSpeed = 5;
-    m_targetLocation = m_position;
+    m_maxSpeed          = atoi(m_game->getGameValue("player_speed").c_str());
+    m_auraRadius        = atoi(m_game->getGameValue("player_aura").c_str());
+    m_targetLocation    = m_position;
 }
 
 void Player::update() {
@@ -28,7 +29,7 @@ void Player::update() {
 
         m_position -= sf::Vector2f(deltaX, deltaY);
 
-        static_cast<Map*>(m_game->screen("map"))->checkTile(m_position);
+        static_cast<Map*>(m_game->screen("map"))->checkTile(m_position, m_auraRadius);
     }
 
     m_sprite.setPosition(m_position);
@@ -52,4 +53,8 @@ void Player::processInput(sf::Event event) {
 
 void Player::moveTo(sf::Vector2f coords) {
     m_targetLocation = coords;
+}
+
+int Player::auraRadius() {
+    return m_auraRadius;
 }

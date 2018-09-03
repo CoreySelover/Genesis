@@ -102,6 +102,8 @@ public:
 
     void assignGameValue(std::string variable, std::string value, bool saveToDisk);
 
+    std::string getGameValue(std::string variable);
+
     void loadGameValues();
 
     void saveGameValues();

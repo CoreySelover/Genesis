@@ -23,6 +23,8 @@ public:
 
     void moveTo(sf::Vector2f coords);
 
+    int auraRadius();
+
 private:
     // TODO - This should probably be in Entity or some other base class
     sf::Sprite m_sprite;
@@ -30,6 +32,8 @@ private:
     sf::Vector2f m_targetLocation;
 
     int m_maxSpeed;
+
+    int m_auraRadius;
 };
 
 #endif // PLAYER_H

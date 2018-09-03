@@ -214,6 +214,16 @@ void Game::assignGameValue(std::string variable, std::string value, bool saveToD
     }
 }
 
+std::string Game::getGameValue(std::string variable) {
+    if(m_gameValues.count(variable)) {
+        return m_gameValues[variable];
+    }
+    else {
+        m_console->displayError("Variable unknown:", variable);
+        return "ERROR";
+    }
+}
+
 void Game::loadGameValues() {
     std::ifstream input( "data.ini" );
     for( std::string line; getline( input, line ); )
