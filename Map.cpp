@@ -98,22 +98,21 @@ void Map::processInput(sf::Event event) {
 
 void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius) {
     sf::Vector2i tileCoords = Tool::pixelsToTile(pixelPosition, m_game->tileHeight(), m_game->tileWidth());
-    //m_grid[tileCoords.x][tileCoords.y]->changeType(TILE_GRASS);
-    int y = 0;
-    for(int x = tileCoords.x - auraRadius; x < tileCoords.x; x++) {
+    int y = 1;
+    for(int x = std::max(tileCoords.x - auraRadius, 0); x < std::min(tileCoords.x, m_game->mapWidth()); x++) {
         m_grid[x][tileCoords.y]->changeType(TILE_GRASS);
         for(int yy = y; yy > 0; yy--) {
-            m_grid[x][tileCoords.y + yy]->changeType(TILE_GRASS);
-            m_grid[x][tileCoords.y - yy]->changeType(TILE_GRASS);
+            m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(TILE_GRASS);
+            m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(TILE_GRASS);
         }
         y++;
     }
     y = auraRadius;
-    for(int x = tileCoords.x; x <= tileCoords.x + auraRadius; x++) {
+    for(int x = std::min(tileCoords.x, m_game->mapWidth()); x < std::min(tileCoords.x + auraRadius, m_game->mapWidth()); x++) {
         m_grid[x][tileCoords.y]->changeType(TILE_GRASS);
         for(int yy = y; yy > 0; yy--) {
-            m_grid[x][tileCoords.y + yy]->changeType(TILE_GRASS);
-            m_grid[x][tileCoords.y - yy]->changeType(TILE_GRASS);
+            m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(TILE_GRASS);
+            m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(TILE_GRASS);
         }
         y--;
     }
