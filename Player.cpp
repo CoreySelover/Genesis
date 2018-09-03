@@ -3,6 +3,8 @@
 
 #include "Player.h"
 
+#include <math.h>
+
 #include "Game.h"
 #include "Map.h"
 #include "Texture.h"
@@ -17,19 +19,35 @@ Player::Player(Game* game, int x, int y, bool canMove)
     m_maxSpeed          = atoi(m_game->getGameValue("player_speed").c_str());
     m_auraRadius        = atoi(m_game->getGameValue("player_aura").c_str());
     m_targetLocation    = m_position;
+
+    m_auraType = AURA_GRASS;
+
+    m_left  = false;
+    m_right = false;
+    m_up    = false;
+    m_down  = false;
+    m_mouseDown = false;
 }
 
 void Player::update() {
 
-    if(abs(Tool::distance(m_targetLocation, m_position)) > Tool::ALLOWED_POSITION_DISCREPANCY) {
-        float xDiff = m_position.x - m_targetLocation.x;
-        float deltaX = m_maxSpeed * xDiff / Tool::distance(m_position, m_targetLocation);
-        float yDiff = m_position.y - m_targetLocation.y;
-        float deltaY = m_maxSpeed * yDiff / Tool::distance(m_position, m_targetLocation);
+    // Movement
+    if(m_left) {
+        if(m_up)        { walk(ULEFT); }
+        else if(m_down) { walk(DLEFT); }
+        else            { walk(LEFT);  }
+    }
+    else if(m_right) {
+        if(m_up)        { walk(URIGHT); }
+        else if(m_down) { walk(DRIGHT); }
+        else            { walk(RIGHT);  }
+    }
+    else if(m_up)       { walk(UP);   }
+    else if(m_down)     { walk(DOWN); }
 
-        m_position -= sf::Vector2f(deltaX, deltaY);
-
-        static_cast<Map*>(m_game->screen("map"))->checkTile(m_position, m_auraRadius);
+    // Tiles
+    if (m_mouseDown) {
+        createAt(m_game->worldCoords(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
     }
 
     m_sprite.setPosition(m_position);
@@ -43,16 +61,90 @@ void Player::processInput(sf::Event event) {
     if(event.type == sf::Event::MouseButtonPressed) {
         switch(event.mouseButton.button) {
             case sf::Mouse::Left:
-                moveTo(m_game->worldCoords(event.mouseButton.x, event.mouseButton.y));
+                m_mouseDown = true;
                 break;
             default:
                 break;
         }
     }
+    if(event.type == sf::Event::MouseButtonReleased) {
+        switch(event.mouseButton.button) {
+            case sf::Mouse::Left:
+                m_mouseDown = false;
+                break;
+            default:
+                break;
+        }
+    }
+    if(event.type == sf::Event::KeyPressed) {
+        switch(event.key.code) {
+        case sf::Keyboard::A:
+            m_left = true;
+            break;
+        case sf::Keyboard::D:
+            m_right = true;
+            break;
+        case sf::Keyboard::W:
+            m_up = true;
+            break;
+        case sf::Keyboard::S:
+            m_down = true;
+            break;
+        }
+    }
+    if(event.type == sf::Event::KeyReleased) {
+        switch(event.key.code) {
+        case sf::Keyboard::A:
+            m_left = false;
+            break;
+        case sf::Keyboard::D:
+            m_right = false;
+            break;
+        case sf::Keyboard::W:
+            m_up = false;
+            break;
+        case sf::Keyboard::S:
+            m_down = false;
+            break;
+        }
+    }
 }
 
-void Player::moveTo(sf::Vector2f coords) {
-    m_targetLocation = coords;
+void Player::walk(Direction direction) {
+    switch(direction) {
+    case LEFT:
+        m_position.x -= m_maxSpeed;
+        break;
+    case RIGHT:
+        m_position.x += m_maxSpeed;
+        break;
+    case UP:
+        m_position.y -= m_maxSpeed;
+        break;
+    case DOWN:
+        m_position.y += m_maxSpeed;
+        break;
+    case ULEFT:
+        m_position.x -= m_maxSpeed / sqrt(2);
+        m_position.y -= m_maxSpeed / sqrt(2);
+        break;
+    case URIGHT:
+        m_position.x += m_maxSpeed / sqrt(2);
+        m_position.y -= m_maxSpeed / sqrt(2);
+        break;
+    case DLEFT:
+        m_position.x -= m_maxSpeed / sqrt(2);
+        m_position.y += m_maxSpeed / sqrt(2);
+        break;
+    case DRIGHT:
+        m_position.x += m_maxSpeed / sqrt(2);
+        m_position.y += m_maxSpeed / sqrt(2);
+        break;
+    }
+}
+
+void Player::createAt(sf::Vector2f coords) {
+    static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius);
 }
 
 int Player::auraRadius() {

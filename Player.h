@@ -9,6 +9,13 @@
 
 class Game;
 
+enum AuraType {
+    AURA_GRASS,
+    AURA_FOREST,
+    AURA_WATER,
+    AURA_ROCK
+};
+
 class Player: public Entity {
 public:
     Player(Game* game, int x, int y, bool canMove);
@@ -21,7 +28,9 @@ public:
 
     void processInput(sf::Event event);
 
-    void moveTo(sf::Vector2f coords);
+    void walk(Direction direction);
+
+    void createAt(sf::Vector2f coords);
 
     int auraRadius();
 
@@ -34,6 +43,13 @@ private:
     int m_maxSpeed;
 
     int m_auraRadius;
+    AuraType m_auraType;
+
+    bool m_left;
+    bool m_right;
+    bool m_up;
+    bool m_down;
+    bool m_mouseDown;
 };
 
 #endif // PLAYER_H

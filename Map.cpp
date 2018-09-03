@@ -98,6 +98,10 @@ void Map::processInput(sf::Event event) {
 
 void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius) {
     sf::Vector2i tileCoords = Tool::pixelsToTile(pixelPosition, m_game->tileHeight(), m_game->tileWidth());
+    if(tileCoords.x >= m_game->mapWidth() || tileCoords.x < 0 || tileCoords.y >= m_game->mapHeight() || tileCoords.y < 0) {
+        return;
+    }
+
     int y = 1;
     for(int x = std::max(tileCoords.x - auraRadius, 0); x < std::min(tileCoords.x, m_game->mapWidth()); x++) {
         m_grid[x][tileCoords.y]->changeType(TILE_GRASS);

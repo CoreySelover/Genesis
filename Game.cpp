@@ -21,8 +21,8 @@ BootError Game::boot() {
     loadGameValues();
 
     // Window
-    //m_window.create(sf::VideoMode::getFullscreenModes()[0], "Genesis", sf::Style::Fullscreen);
-    m_window.create(sf::VideoMode(800,600), "Genesis");
+    m_window.create(sf::VideoMode::getFullscreenModes()[0], "Genesis", sf::Style::Fullscreen);
+    //m_window.create(sf::VideoMode(800,600), "Genesis");
 
     // Set up managers
     m_managers[TEXTURE_MANAGER] = new Manager();
@@ -95,8 +95,17 @@ void Game::processInput(sf::Event event) {
             static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_currentScreen))->processInput(event);
         }
     }
+    else if (event.type == sf::Event::KeyReleased) {
+        // Player control or GUI interaction
+        if(!m_console->active()) {
+            static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_currentScreen))->processInput(event);
+        }
+    }
     // Mouse
     else if (event.type == sf::Event::MouseButtonPressed) {
+        static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_currentScreen))->processInput(event);
+    }
+    else if (event.type == sf::Event::MouseButtonReleased) {
         static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_currentScreen))->processInput(event);
     }
 }
@@ -194,7 +203,6 @@ void Game::runCommand(std::string command) {
             // Do stuff accordingly
             m_console->clean();
             m_console->toggle();
-            return;
         }
     }
     m_console->displayError("Command not found or syntax invalid:", command);

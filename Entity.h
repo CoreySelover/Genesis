@@ -14,6 +14,17 @@
 
 class Game;
 
+enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    ULEFT,
+    URIGHT,
+    DLEFT,
+    DRIGHT
+};
+
 class Entity : public ManagedObject {
 public:
 
