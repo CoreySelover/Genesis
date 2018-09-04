@@ -50,6 +50,10 @@ void Tile::changeType(TileType newType) {
     setSpriteTexture();
 }
 
+TileType Tile::getType() {
+    return m_type;
+}
+
 sf::Vector2f Tile::coordinatesAsPixels() {
     return sf::Vector2f(m_x * m_map->m_game->tileWidth(), m_y * m_map->m_game->tileHeight());
 }

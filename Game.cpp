@@ -23,6 +23,7 @@ BootError Game::boot() {
     // Window
     m_window.create(sf::VideoMode::getFullscreenModes()[0], "Genesis", sf::Style::Fullscreen);
     //m_window.create(sf::VideoMode(800,600), "Genesis");
+    m_window.setVerticalSyncEnabled(true);
 
     // Set up managers
     m_managers[TEXTURE_MANAGER] = new Manager();
@@ -46,6 +47,8 @@ BootError Game::boot() {
 
 RunError Game::run() {
 
+    float clockRemainder = 0;
+
     while(m_running) {
 
         sf::Event event;
@@ -59,19 +62,23 @@ RunError Game::run() {
         }
         if(!m_running) return RUN_SUCCESS;
 
-        // Update managers as appropriate.
-        m_currentScreen = m_screenQueue.front();
-        m_managers[SCREEN_MANAGER]->get(m_currentScreen)->update();
-        m_console->update();
+        if(m_gameClock.getElapsedTime().asSeconds() > 1/60.f - clockRemainder) {
+            // Update managers as appropriate.
+            m_currentScreen = m_screenQueue.front();
+            m_managers[SCREEN_MANAGER]->get(m_currentScreen)->update();
+            m_console->update();
 
-        // Draw game objects, screens, etc.
-        m_window.clear();
-        m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
+            clockRemainder = m_gameClock.restart().asSeconds() - 1/60.f;
 
-        // Draw console
-        //m_window.setView(m_window.getDefaultView());
-        m_console->draw();
-        m_window.display();
+            // Draw game objects, screens, etc.
+            m_window.clear();
+            m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
+
+            // Draw console
+            //m_window.setView(m_window.getDefaultView());
+            m_console->draw();
+            m_window.display();
+        }
     }
 
     return RUN_SUCCESS;

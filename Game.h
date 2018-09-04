@@ -131,6 +131,8 @@ private:
 
     bool m_running;
 
+    sf::Clock m_gameClock;
+
     /* We store game values in this map, accessible by std::string so that they
      * can be easily manipulated through the console.
      */

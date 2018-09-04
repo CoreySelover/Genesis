@@ -32,6 +32,8 @@ public:
 
     void changeType(TileType newType);
 
+    TileType getType();
+
     sf::Vector2f coordinatesAsPixels();
 
     sf::Vector2f centerCoordsAsPixels();
