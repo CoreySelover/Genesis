@@ -57,6 +57,8 @@ void Map::populateStartingMap(int seed) {
     else {
     }
 
+    updateTileSprites();
+
     // Create Player and set starting position.
     m_entMan->add("Player", new Player(m_game, playerPos.x, playerPos.y, true));
 
@@ -92,8 +94,11 @@ void Map::processInput(sf::Event event) {
         //}
     }
 
-    // User clicked in game world
     static_cast<Player*>(m_entMan->get("Player"))->processInput(event);
+
+    if(event.type == sf::Event::MouseButtonReleased) {
+        updateTileSprites();
+    }
 }
 
 void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius) {
@@ -122,6 +127,16 @@ void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius) {
     }
 }
 
+void Map::updateTileSprites() {
+    for(int x = 0; x < m_game->mapWidth(); x++) {
+        for(int y = 0; y < m_game->mapHeight(); y++) {
+            if(m_grid[x][y]->getType() == TILE_GRASS) {
+                m_grid[x][y]->updateSprite();
+            }
+        }
+    }
+}
+
 Map::~Map() {
     // Delete entities
     m_entMan->shutdown();
@@ -137,4 +152,8 @@ Map::~Map() {
 
 Texture* Map::texture(std::string filePath) {
     return m_game->texture(filePath);
+}
+
+Tile* Map::tile(int x, int y) {
+    return m_grid[x][y];
 }

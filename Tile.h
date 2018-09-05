@@ -30,6 +30,8 @@ public:
 
     void setSpriteTexture();
 
+    void updateSprite();
+
     void changeType(TileType newType);
 
     TileType getType();
@@ -48,6 +50,11 @@ private:
     TileType m_type;
 
     sf::Sprite m_sprite;
+
+    bool m_northIsGrass;
+    bool m_southIsGrass;
+    bool m_eastIsGrass;
+    bool m_westIsGrass;
 };
 
 #endif // TILE_H

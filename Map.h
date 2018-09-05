@@ -24,9 +24,13 @@ public:
 
     void checkTile(sf::Vector2f pixelPosition, int auraRadius);
 
+    void updateTileSprites();
+
     // Getters and Setters
 
     Texture* texture(std::string filePath);
+
+    Tile* tile(int x, int y);
 
     ~Map();
 
