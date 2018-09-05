@@ -109,7 +109,7 @@ void Tile::updateSprite() {
         else {
             // just north
             m_sprite.setTextureRect(sf::IntRect(0,
-                                                3*m_map->m_game->tileHeight(),
+                                                m_map->m_game->tileHeight(),
                                                 m_map->m_game->tileWidth(),
                                                 m_map->m_game->tileHeight()));
         }
