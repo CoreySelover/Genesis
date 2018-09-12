@@ -54,19 +54,21 @@ void Player::update() {
     else if(m_up)       { walk(UP);   }
     else if(m_down)     { walk(DOWN); }
 
-    // Tiles
+    // Create tiles
     if (m_mouseDown && m_currentMana - m_manaCost[m_auraType] >= 0) {
         createAt(m_game->worldCoords(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
         m_currentMana -= m_manaCost[m_auraType];
     }
-
-    m_sprite.setPosition(m_position);
 
     // Update Mana
     if(!m_mouseDown && m_manaTimer.getElapsedTime().asSeconds() >= 0.2) {
         m_currentMana += m_manaRechargeRate;
         m_manaTimer.restart();
     }
+
+    // Sync sprite
+    m_sprite.setPosition(m_position);
+
 }
 
 void Player::draw() {
