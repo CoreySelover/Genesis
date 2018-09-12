@@ -16,11 +16,18 @@ Player::Player(Game* game, int x, int y, bool canMove)
     m_sprite.setTexture(m_game->addTexture("resources/textures/TEXTURE_PLAYER.png")->get());
     // TODO - un-hard code this
     m_sprite.setOrigin(sf::Vector2f(32,32));
-    m_maxSpeed          = atoi(m_game->getGameValue("player_speed").c_str());
-    m_auraRadius        = atoi(m_game->getGameValue("player_aura").c_str());
+    m_maxSpeed              = atoi(m_game->getGameValue("player_speed").c_str());
+    m_auraRadius            = atoi(m_game->getGameValue("player_aura").c_str());
+    m_maxMana               = atoi(m_game->getGameValue("player_mana").c_str());
+    m_manaCost[TILE_GRASS]  = atoi(m_game->getGameValue("aura_grass_cost").c_str());
+    m_manaCost[TILE_FOREST] = atoi(m_game->getGameValue("aura_forest_cost").c_str());
+    m_manaCost[TILE_WATER]  = atoi(m_game->getGameValue("aura_water_cost").c_str());
+    m_manaCost[TILE_ROCK]   = atoi(m_game->getGameValue("aura_rock_cost").c_str());
+
+    m_currentMana       = m_maxMana;
     m_targetLocation    = m_position;
 
-    m_auraType = AURA_GRASS;
+    m_auraType = TILE_GRASS;
 
     m_left  = false;
     m_right = false;
@@ -46,11 +53,17 @@ void Player::update() {
     else if(m_down)     { walk(DOWN); }
 
     // Tiles
-    if (m_mouseDown) {
+    if (m_mouseDown && m_currentMana - m_manaCost[m_auraType] >= 0) {
         createAt(m_game->worldCoords(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
     }
 
     m_sprite.setPosition(m_position);
+
+    // Update Mana
+    if(!m_mouseDown && m_manaTimer.getElapsedTime().asSeconds() >= 0.2) {
+        m_currentMana += m_manaRechargeRate;
+        m_manaTimer.restart();
+    }
 }
 
 void Player::draw() {
@@ -89,6 +102,8 @@ void Player::processInput(sf::Event event) {
             break;
         case sf::Keyboard::S:
             m_down = true;
+            break;
+        default:
             break;
         }
     }
@@ -143,8 +158,8 @@ void Player::walk(Direction direction) {
     }
 }
 
-void Player::createAt(sf::Vector2f coords) {
-    static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius);
+int Player::createAt(sf::Vector2f coords) {
+    return static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius, m_auraType);
 }
 
 int Player::auraRadius() {

@@ -9,13 +9,6 @@
 
 class Game;
 
-enum AuraType {
-    AURA_GRASS,
-    AURA_FOREST,
-    AURA_WATER,
-    AURA_ROCK
-};
-
 class Player: public Entity {
 public:
     Player(Game* game, int x, int y, bool canMove);
@@ -30,7 +23,7 @@ public:
 
     void walk(Direction direction);
 
-    void createAt(sf::Vector2f coords);
+    int createAt(sf::Vector2f coords);
 
     int auraRadius();
 
@@ -41,9 +34,12 @@ private:
     sf::Vector2f m_targetLocation;
 
     int m_maxSpeed;
-
     int m_auraRadius;
-    AuraType m_auraType;
+    int m_auraType;
+    int m_maxMana;
+    int m_currentMana;
+    std::map<int, int> m_manaCost;
+    sf::Clock m_manaTimer;
 
     bool m_left;
     bool m_right;
