@@ -11,7 +11,9 @@ class Map;
 
 enum TileType {
     TILE_GRASS,
+    TILE_FOREST,
     TILE_WATER,
+    TILE_ROCK,
     TILE_BLANK
 };
 

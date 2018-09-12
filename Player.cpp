@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Texture.h"
 #include "Tool.h"
+#include "Tile.h"
 
 Player::Player(Game* game, int x, int y, bool canMove)
     : Entity(game, x, y, canMove){
@@ -19,6 +20,7 @@ Player::Player(Game* game, int x, int y, bool canMove)
     m_maxSpeed              = atoi(m_game->getGameValue("player_speed").c_str());
     m_auraRadius            = atoi(m_game->getGameValue("player_aura").c_str());
     m_maxMana               = atoi(m_game->getGameValue("player_mana").c_str());
+    m_manaRechargeRate      = atoi(m_game->getGameValue("player_mana_recharge").c_str());
     m_manaCost[TILE_GRASS]  = atoi(m_game->getGameValue("aura_grass_cost").c_str());
     m_manaCost[TILE_FOREST] = atoi(m_game->getGameValue("aura_forest_cost").c_str());
     m_manaCost[TILE_WATER]  = atoi(m_game->getGameValue("aura_water_cost").c_str());
@@ -55,6 +57,7 @@ void Player::update() {
     // Tiles
     if (m_mouseDown && m_currentMana - m_manaCost[m_auraType] >= 0) {
         createAt(m_game->worldCoords(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
+        m_currentMana -= m_manaCost[m_auraType];
     }
 
     m_sprite.setPosition(m_position);
@@ -158,8 +161,8 @@ void Player::walk(Direction direction) {
     }
 }
 
-int Player::createAt(sf::Vector2f coords) {
-    return static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius, m_auraType);
+void Player::createAt(sf::Vector2f coords) {
+    static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius);
 }
 
 int Player::auraRadius() {

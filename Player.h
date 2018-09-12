@@ -23,7 +23,7 @@ public:
 
     void walk(Direction direction);
 
-    int createAt(sf::Vector2f coords);
+    void createAt(sf::Vector2f coords);
 
     int auraRadius();
 
@@ -38,6 +38,7 @@ private:
     int m_auraType;
     int m_maxMana;
     int m_currentMana;
+    int m_manaRechargeRate;
     std::map<int, int> m_manaCost;
     sf::Clock m_manaTimer;
 
