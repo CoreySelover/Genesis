@@ -39,6 +39,7 @@ BootError Game::boot() {
     //m_screenQueue.push("happy_rock");
     //m_screenQueue.push("disclaimer");
     m_screenQueue.push("map");
+    m_currentScreen = m_screenQueue.front();
 
     m_running = true;
 
@@ -50,6 +51,11 @@ RunError Game::run() {
     float clockRemainder = 0;
 
     while(m_running) {
+
+        /* We do this now to ensure that events (particularly mouse clicks)
+         * are relative to the "world" and not, say the HUD.
+         */
+        m_window.setView(static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_currentScreen))->getView());
 
         sf::Event event;
         while (m_window.pollEvent(event)) {
@@ -75,7 +81,7 @@ RunError Game::run() {
             m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
 
             // Draw console
-            //m_window.setView(m_window.getDefaultView());
+            m_window.setView(m_window.getDefaultView());
             m_console->draw();
             m_window.display();
         }

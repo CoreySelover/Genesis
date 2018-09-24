@@ -31,3 +31,7 @@ void Screen::restartClock() {
 sf::Time Screen::elapsedTime() {
     return m_currentTime.getElapsedTime();
 }
+
+sf::View& Screen::getView() {
+    return m_view;
+}

@@ -38,9 +38,6 @@ private:
     std::vector<std::vector<Tile*> > m_grid;
 
     Manager* m_entMan;
-
-    // TODO - this will probably become a Camera class.
-    sf::View m_view;
 };
 
 #endif // MAP_H

@@ -72,8 +72,6 @@ void Map::update() {
 
 void Map::draw() {
 
-    m_game->setView(m_view);
-
     // Draw from "back" (top) of the map "forward" (down)
     for(int y = 0; y < m_game->mapHeight(); y++) {
         for(int x = 0; x < m_game->mapWidth(); x++) {

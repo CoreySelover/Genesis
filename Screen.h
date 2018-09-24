@@ -37,6 +37,13 @@ public:
 
     sf::Time elapsedTime();
 
+    // Getters and Setters
+    sf::View& getView();
+
+protected:
+    // TODO - this will probably become a Camera class.
+    sf::View m_view;
+
 private:
     bool m_active;
 
