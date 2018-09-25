@@ -13,6 +13,7 @@
 #include "Splash.h"
 #include "Map.h"
 #include "Texture.h"
+#include "HudObject.h"
 
 Game::Game() {}
 
@@ -28,6 +29,11 @@ BootError Game::boot() {
     // Set up managers
     m_managers[TEXTURE_MANAGER] = new Manager();
     m_managers[SCREEN_MANAGER] = new Manager();
+    m_managers[HUD_MANAGER] = new Manager();
+
+    m_managers[HUD_MANAGER]->add("mana", new HudObject(this,
+                                                       "resources/textures/TEXTURE_MANA.png",
+                                                       sf::IntRect(0, 0, 300, 50), 30, 30, true));
 
     // Console
     m_console = new Console(this);
@@ -69,9 +75,11 @@ RunError Game::run() {
         if(!m_running) return RUN_SUCCESS;
 
         if(m_gameClock.getElapsedTime().asSeconds() > 1/60.f - clockRemainder) {
+
             // Update managers as appropriate.
             m_currentScreen = m_screenQueue.front();
             m_managers[SCREEN_MANAGER]->get(m_currentScreen)->update();
+            m_managers[HUD_MANAGER]->update();
             m_console->update();
 
             clockRemainder = m_gameClock.restart().asSeconds() - 1/60.f;
@@ -81,8 +89,13 @@ RunError Game::run() {
             m_managers[SCREEN_MANAGER]->get(m_currentScreen)->draw();
 
             // Draw console
+            // TODO - this line should be unnecessary if HUD_MANAGER is the last to draw.
+            // Might be good to keep it in place in case manager updating gets shuffled.
             m_window.setView(m_window.getDefaultView());
+            m_managers[HUD_MANAGER]->draw();
             m_console->draw();
+
+            // Display
             m_window.display();
         }
     }

@@ -35,7 +35,8 @@ enum ShutdownError {
 enum ManagerType {
     ENTITY_MANAGER,
     SCREEN_MANAGER,
-    TEXTURE_MANAGER
+    TEXTURE_MANAGER,
+    HUD_MANAGER
 };
 
 class Game {
