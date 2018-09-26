@@ -25,7 +25,13 @@ public:
 
     void createAt(sf::Vector2f coords);
 
-    int auraRadius();
+    // Getters and Setters
+
+    int maxMana() const;
+
+    int currentMana() const;
+
+    int auraRadius() const;
 
 private:
     // TODO - This should probably be in Entity or some other base class

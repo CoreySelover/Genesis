@@ -31,10 +31,6 @@ BootError Game::boot() {
     m_managers[SCREEN_MANAGER] = new Manager();
     m_managers[HUD_MANAGER] = new Manager();
 
-    m_managers[HUD_MANAGER]->add("mana", new HudObject(this,
-                                                       "resources/textures/TEXTURE_MANA.png",
-                                                       sf::IntRect(0, 0, 300, 50), 30, 30, true));
-
     // Console
     m_console = new Console(this);
 
@@ -46,6 +42,10 @@ BootError Game::boot() {
     //m_screenQueue.push("disclaimer");
     m_screenQueue.push("map");
     m_currentScreen = m_screenQueue.front();
+
+    m_managers[HUD_MANAGER]->add("mana", new ManaHudObject(this,
+                                                           "resources/textures/TEXTURE_MANA.png",
+                                                           sf::IntRect(0, 0, 300, 50), 30, 30, 2, true));
 
     m_running = true;
 
@@ -79,7 +79,7 @@ RunError Game::run() {
             // Update managers as appropriate.
             m_currentScreen = m_screenQueue.front();
             m_managers[SCREEN_MANAGER]->get(m_currentScreen)->update();
-            m_managers[HUD_MANAGER]->update();
+            if (m_currentScreen.compare("map") == 0) m_managers[HUD_MANAGER]->update();
             m_console->update();
 
             clockRemainder = m_gameClock.restart().asSeconds() - 1/60.f;
@@ -181,7 +181,8 @@ void Game::nextScreen() {
 ///////////////////////////////////
 
 Entity* Game::entity(std::string name) {
-    return static_cast<Entity*>(m_managers[ENTITY_MANAGER]->get(name));
+    // TODO - this should throw an error if the entity doesn't exist
+    return static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(m_currentScreen))->entity(name);
 }
 
 Texture* Game::texture(std::string name) {

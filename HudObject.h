@@ -13,11 +13,17 @@ class Game;
 
 class HudObject : public ManagedObject {
 public:
+    /*
+     * x and y are used in conjunction with quadrant (think quadrants of a graph)
+     * to determine where the HudObject will appear.
+     * x and y basically count as "how much room from the corner should I have?"
+     */
     HudObject(Game* game,
               std::string fileName,
               sf::IntRect textureRect,
               int x,
               int y,
+              int quadrant,
               bool visibleAtStart);
 
     virtual void update();
@@ -43,6 +49,30 @@ protected:
     sf::Vector2f m_position;
 
     bool m_visible;
+};
+
+class ManaHudObject : public HudObject {
+public:
+    ManaHudObject(Game* game,
+              std::string fileName,
+              sf::IntRect textureRect,
+              int x,
+              int y,
+              int quadrant,
+              bool visibleAtStart);
+
+    void update();
+
+    void draw();
+
+private:
+    sf::Sprite m_meterSprite;
+
+    int m_currentMana;
+
+    int m_currentMeterPercentage;
+
+    int m_maxMana;
 };
 
 #endif // HUD_OBJECT

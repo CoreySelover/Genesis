@@ -61,8 +61,8 @@ void Player::update() {
     }
 
     // Update Mana
-    if(!m_mouseDown && m_manaTimer.getElapsedTime().asSeconds() >= 0.2) {
-        m_currentMana += m_manaRechargeRate;
+    if(!m_mouseDown && m_manaTimer.getElapsedTime().asSeconds() >= 0.2 && m_currentMana < m_maxMana) {
+        m_currentMana += std::min(m_manaRechargeRate, m_maxMana - m_currentMana);
         m_manaTimer.restart();
     }
 
@@ -167,6 +167,16 @@ void Player::createAt(sf::Vector2f coords) {
     static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius);
 }
 
-int Player::auraRadius() {
+int Player::maxMana() const {
+    return m_maxMana;
+}
+
+int Player::currentMana() const {
+    return m_currentMana;
+}
+
+int Player::auraRadius() const {
     return m_auraRadius;
 }
+
+

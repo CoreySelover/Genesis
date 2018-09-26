@@ -14,6 +14,7 @@
 #include "Manager.h"
 
 class Game;
+class Entity;
 
 class Screen : public ManagedObject {
 public:
@@ -40,9 +41,13 @@ public:
     // Getters and Setters
     sf::View& getView();
 
+    Entity* entity(std::string name);
+
 protected:
     // TODO - this will probably become a Camera class.
     sf::View m_view;
+
+    Manager* m_entMan;
 
 private:
     bool m_active;

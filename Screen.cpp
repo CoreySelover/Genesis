@@ -4,6 +4,7 @@
 #include "Screen.h"
 
 #include "Game.h"
+#include "Entity.h"
 
 Screen::Screen(Game* game, bool active)
     : ManagedObject(game) {
@@ -34,4 +35,8 @@ sf::Time Screen::elapsedTime() {
 
 sf::View& Screen::getView() {
     return m_view;
+}
+
+Entity* Screen::entity(std::string name) {
+    return static_cast<Entity*>(m_entMan->get(name));
 }

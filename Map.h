@@ -37,7 +37,6 @@ public:
 private:
     std::vector<std::vector<Tile*> > m_grid;
 
-    Manager* m_entMan;
 };
 
 #endif // MAP_H
