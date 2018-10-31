@@ -75,4 +75,24 @@ private:
     int m_maxMana;
 };
 
+class AuraHudObject : public HudObject {
+public:
+    AuraHudObject(Game* game,
+              std::string fileName,
+              sf::IntRect textureRect,
+              int x,
+              int y,
+              int quadrant,
+              bool visibleAtStart);
+
+    void update();
+
+    void toggle();
+
+    bool active() const;
+
+private:
+    bool m_active;
+};
+
 #endif // HUD_OBJECT

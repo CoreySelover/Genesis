@@ -102,3 +102,36 @@ void ManaHudObject::draw() {
     if(m_visible) m_game->draw(m_meterSprite);
 }
 
+// AURA_HUD_OBJECT
+
+AuraHudObject::AuraHudObject(Game* game,
+                     std::string fileName,
+                     sf::IntRect textureRect,
+                     int x,
+                     int y,
+                     int quadrant,
+                     bool visibleAtStart = true)
+    : HudObject(game, fileName, textureRect, x, y, quadrant, visibleAtStart) {
+
+    m_active = false;
+}
+
+void AuraHudObject::update() {
+    if (m_active) {
+        m_sprite.setTextureRect(sf::IntRect(m_textureRect.left,
+                                m_textureRect.top + m_textureRect.height,
+                                m_textureRect.width,
+                                m_textureRect.height));
+    }
+    else {
+        m_sprite.setTextureRect(m_textureRect);
+    }
+}
+
+void AuraHudObject::toggle() {
+    m_active = !m_active;
+}
+
+bool AuraHudObject::active() const {
+    return m_active;
+}

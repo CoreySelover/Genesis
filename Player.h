@@ -33,11 +33,11 @@ public:
 
     int auraRadius() const;
 
+    void setAuraType(int auraType);
+
 private:
     // TODO - This should probably be in Entity or some other base class
     sf::Sprite m_sprite;
-
-    sf::Vector2f m_targetLocation;
 
     int m_maxSpeed;
     int m_auraRadius;

@@ -18,6 +18,7 @@ class Manager;
 class Entity;
 class Texture;
 class Screen;
+class HudObject;
 
 // TODO - Are these really necessary?
 enum BootError {
@@ -76,6 +77,8 @@ public:
     Texture* texture(std::string name);
 
     Screen* screen(std::string name);
+
+    HudObject* hudObject(std::string name);
 
     sf::Vector2f windowCenter();
 

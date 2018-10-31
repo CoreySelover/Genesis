@@ -99,7 +99,7 @@ void Map::processInput(sf::Event event) {
     }
 }
 
-void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius) {
+void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType tileType) {
     sf::Vector2i tileCoords = Tool::pixelsToTile(pixelPosition, m_game->tileHeight(), m_game->tileWidth());
     if(tileCoords.x >= m_game->mapWidth() || tileCoords.x < 0 || tileCoords.y >= m_game->mapHeight() || tileCoords.y < 0) {
         return;
@@ -107,20 +107,20 @@ void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius) {
 
     // Handle auraRadius of 1 differently because the math doesn't quite work out.
     if (auraRadius == 1) {
-        m_grid[tileCoords.x][tileCoords.y]->changeType(TILE_GRASS);
-        m_grid[std::max(0, tileCoords.x - 1)][tileCoords.y]->changeType(TILE_GRASS);
-        m_grid[std::min(m_game->mapWidth(), tileCoords.x + 1)][tileCoords.y]->changeType(TILE_GRASS);
-        m_grid[tileCoords.x][std::max(0, tileCoords.y - 1)]->changeType(TILE_GRASS);
-        m_grid[tileCoords.x][std::min(m_game->mapHeight(), tileCoords.y + 1)]->changeType(TILE_GRASS);
+        m_grid[tileCoords.x][tileCoords.y]->changeType(tileType);
+        m_grid[std::max(0, tileCoords.x - 1)][tileCoords.y]->changeType(tileType);
+        m_grid[std::min(m_game->mapWidth(), tileCoords.x + 1)][tileCoords.y]->changeType(tileType);
+        m_grid[tileCoords.x][std::max(0, tileCoords.y - 1)]->changeType(tileType);
+        m_grid[tileCoords.x][std::min(m_game->mapHeight(), tileCoords.y + 1)]->changeType(tileType);
         return;
     }
 
     int y = 1;
     for(int x = std::max(tileCoords.x - auraRadius, 0); x < std::min(tileCoords.x, m_game->mapWidth()); x++) {
-        m_grid[x][tileCoords.y]->changeType(TILE_GRASS);
+        m_grid[x][tileCoords.y]->changeType(tileType);
         for(int yy = y; yy > 0; yy--) {
-            m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(TILE_GRASS);
-            m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(TILE_GRASS);
+            m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(tileType);
+            m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(tileType);
         }
         y++;
     }

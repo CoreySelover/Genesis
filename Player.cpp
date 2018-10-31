@@ -27,9 +27,8 @@ Player::Player(Game* game, int x, int y, bool canMove)
     m_manaCost[TILE_ROCK]   = atoi(m_game->getGameValue("aura_rock_cost").c_str());
 
     m_currentMana       = m_maxMana;
-    m_targetLocation    = m_position;
 
-    m_auraType = TILE_GRASS;
+    setAuraType(TILE_GRASS);
 
     m_left  = false;
     m_right = false;
@@ -55,7 +54,8 @@ void Player::update() {
     else if(m_down)     { walk(DOWN); }
 
     // Create tiles
-    if (m_mouseDown && m_currentMana - m_manaCost[m_auraType] >= 0) {
+    if (m_mouseDown
+        && m_currentMana - m_manaCost[m_auraType] >= 0) {
         createAt(m_game->worldCoords(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
         m_currentMana -= m_manaCost[m_auraType];
     }
@@ -107,6 +107,15 @@ void Player::processInput(sf::Event event) {
             break;
         case sf::Keyboard::S:
             m_down = true;
+            break;
+        case sf::Keyboard::Num1:
+            setAuraType(TILE_GRASS);
+            break;
+        case sf::Keyboard::Num2:
+            setAuraType(TILE_WATER);
+            break;
+        case sf::Keyboard::Num3:
+            setAuraType(TILE_ROCK);
             break;
         default:
             break;
@@ -164,7 +173,7 @@ void Player::walk(Direction direction) {
 }
 
 void Player::createAt(sf::Vector2f coords) {
-    static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius);
+    static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius, (TileType)m_auraType);
 }
 
 int Player::maxMana() const {
@@ -177,6 +186,10 @@ int Player::currentMana() const {
 
 int Player::auraRadius() const {
     return m_auraRadius;
+}
+
+void Player::setAuraType(int auraType) {
+    m_auraType = auraType;
 }
 
 

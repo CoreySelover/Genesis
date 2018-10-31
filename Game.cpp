@@ -43,7 +43,7 @@ BootError Game::boot() {
     m_screenQueue.push("map");
     m_currentScreen = m_screenQueue.front();
 
-    m_managers[HUD_MANAGER]->add("mana", new ManaHudObject(this,
+    m_managers[HUD_MANAGER]->add("mana_hud", new ManaHudObject(this,
                                                            "resources/textures/TEXTURE_MANA.png",
                                                            sf::IntRect(0, 0, 300, 50), 30, 30, 2, true));
 
@@ -195,6 +195,10 @@ Texture* Game::addTexture(std::string filePath, bool repeated) {
 
 Screen* Game::screen(std::string name) {
     return static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(name));
+}
+
+HudObject* Game::hudObject(std::string name) {
+    return static_cast<HudObject*>(m_managers[HUD_MANAGER]->get(name));
 }
 
 void Game::setView(sf::View view) { m_window.setView(view); }

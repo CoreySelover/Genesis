@@ -5,8 +5,8 @@
 #define MAP_H
 
 #include "Screen.h"
+#include "Tile.h"
 
-class Tile;
 class Texture;
 class Manager;
 
@@ -22,7 +22,7 @@ public:
 
     void processInput(sf::Event event);
 
-    void checkTile(sf::Vector2f pixelPosition, int auraRadius);
+    void checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraType);
 
     void updateTileSprites();
 
