@@ -99,40 +99,54 @@ void Map::processInput(sf::Event event) {
     }
 }
 
-void Map::checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType tileType) {
+bool Map::checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraType) {
     sf::Vector2i tileCoords = Tool::pixelsToTile(pixelPosition, m_game->tileHeight(), m_game->tileWidth());
+    bool shouldCostMana = true;
+
+    // Tile is out of bounds and we should not change anything
     if(tileCoords.x >= m_game->mapWidth() || tileCoords.x < 0 || tileCoords.y >= m_game->mapHeight() || tileCoords.y < 0) {
-        return;
+        shouldCostMana = false;
+    }
+    else if(tileCoords == m_previousCheckedTile && auraType == m_previousCheckedTileType) {
+        shouldCostMana = false;
     }
 
-    // Handle auraRadius of 1 differently because the math doesn't quite work out.
-    if (auraRadius == 1) {
-        m_grid[tileCoords.x][tileCoords.y]->changeType(tileType);
-        m_grid[std::max(0, tileCoords.x - 1)][tileCoords.y]->changeType(tileType);
-        m_grid[std::min(m_game->mapWidth(), tileCoords.x + 1)][tileCoords.y]->changeType(tileType);
-        m_grid[tileCoords.x][std::max(0, tileCoords.y - 1)]->changeType(tileType);
-        m_grid[tileCoords.x][std::min(m_game->mapHeight(), tileCoords.y + 1)]->changeType(tileType);
-        return;
+    // We either have a different tile location or a different tile type, so we need to do the work.
+    if (shouldCostMana) {
+
+        // Handle auraRadius of 1 differently because the math doesn't quite work out.
+        if (auraRadius == 1) {
+            m_grid[tileCoords.x][tileCoords.y]->changeType(auraType);
+            m_grid[std::max(0, tileCoords.x - 1)][tileCoords.y]->changeType(auraType);
+            m_grid[std::min(m_game->mapWidth(), tileCoords.x + 1)][tileCoords.y]->changeType(auraType);
+            m_grid[tileCoords.x][std::max(0, tileCoords.y - 1)]->changeType(auraType);
+            m_grid[tileCoords.x][std::min(m_game->mapHeight(), tileCoords.y + 1)]->changeType(auraType);
+        }
+        else {
+            int y = 1;
+            for(int x = std::max(tileCoords.x - auraRadius, 0); x < std::min(tileCoords.x, m_game->mapWidth()); x++) {
+                m_grid[x][tileCoords.y]->changeType(auraType);
+                for(int yy = y; yy > 0; yy--) {
+                    m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(auraType);
+                    m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(auraType);
+                }
+                y++;
+            }
+            y = auraRadius;
+            for(int x = std::min(tileCoords.x, m_game->mapWidth()); x < std::min(tileCoords.x + auraRadius, m_game->mapWidth()); x++) {
+                m_grid[x][tileCoords.y]->changeType(auraType);
+                for(int yy = y; yy > 0; yy--) {
+                    m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(auraType);
+                    m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(auraType);
+                }
+                y--;
+            }
+        }
     }
 
-    int y = 1;
-    for(int x = std::max(tileCoords.x - auraRadius, 0); x < std::min(tileCoords.x, m_game->mapWidth()); x++) {
-        m_grid[x][tileCoords.y]->changeType(tileType);
-        for(int yy = y; yy > 0; yy--) {
-            m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(tileType);
-            m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(tileType);
-        }
-        y++;
-    }
-    y = auraRadius;
-    for(int x = std::min(tileCoords.x, m_game->mapWidth()); x < std::min(tileCoords.x + auraRadius, m_game->mapWidth()); x++) {
-        m_grid[x][tileCoords.y]->changeType(TILE_GRASS);
-        for(int yy = y; yy > 0; yy--) {
-            m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(TILE_GRASS);
-            m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(TILE_GRASS);
-        }
-        y--;
-    }
+    m_previousCheckedTile = tileCoords;
+    m_previousCheckedTileType = auraType;
+    return shouldCostMana;
 }
 
 void Map::updateTileSprites() {

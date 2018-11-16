@@ -54,10 +54,9 @@ void Player::update() {
     else if(m_down)     { walk(DOWN); }
 
     // Create tiles
-    if (m_mouseDown
-        && m_currentMana - m_manaCost[m_auraType] >= 0) {
-        createAt(m_game->worldCoords(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
-        m_currentMana -= m_manaCost[m_auraType];
+    if (m_mouseDown && m_currentMana - m_manaCost[m_auraType] >= 0) {
+        if(createAt(m_game->worldCoords(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y)))
+            m_currentMana -= m_manaCost[m_auraType];
     }
 
     // Update Mana
@@ -172,8 +171,8 @@ void Player::walk(Direction direction) {
     }
 }
 
-void Player::createAt(sf::Vector2f coords) {
-    static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius, (TileType)m_auraType);
+bool Player::createAt(sf::Vector2f coords) {
+    return static_cast<Map*>(m_game->screen("map"))->checkTile(coords, m_auraRadius, (TileType)m_auraType);
 }
 
 int Player::maxMana() const {

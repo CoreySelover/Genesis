@@ -22,7 +22,10 @@ public:
 
     void processInput(sf::Event event);
 
-    void checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraType);
+    /**
+     * @return Returns 'true' if the tile is a different tile than the previous one checked.
+     */
+    bool checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraType);
 
     void updateTileSprites();
 
@@ -36,6 +39,9 @@ public:
 
 private:
     std::vector<std::vector<Tile*> > m_grid;
+
+    sf::Vector2i m_previousCheckedTile;
+    TileType m_previousCheckedTileType;
 
 };
 

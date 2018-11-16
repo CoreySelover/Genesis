@@ -23,7 +23,7 @@ public:
 
     void walk(Direction direction);
 
-    void createAt(sf::Vector2f coords);
+    bool createAt(sf::Vector2f coords);
 
     // Getters and Setters
 
