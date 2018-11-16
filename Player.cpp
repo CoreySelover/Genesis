@@ -10,6 +10,7 @@
 #include "Texture.h"
 #include "Tool.h"
 #include "Tile.h"
+#include "HudObject.h"
 
 Player::Player(Game* game, int x, int y, bool canMove)
     : Entity(game, x, y, canMove){
@@ -52,6 +53,25 @@ void Player::update() {
     }
     else if(m_up)       { walk(UP);   }
     else if(m_down)     { walk(DOWN); }
+
+    // Display correct Mana aura type.
+    static_cast<AuraHudObject*>(m_game->hudObject("grass_aura_hud"))->setActive(false);
+    static_cast<AuraHudObject*>(m_game->hudObject("rock_aura_hud"))->setActive(false);
+    static_cast<AuraHudObject*>(m_game->hudObject("water_aura_hud"))->setActive(false);
+
+    switch(m_auraType) {
+        case TILE_GRASS:
+            static_cast<AuraHudObject*>(m_game->hudObject("grass_aura_hud"))->setActive(true);
+            break;
+        case TILE_ROCK:
+            static_cast<AuraHudObject*>(m_game->hudObject("rock_aura_hud"))->setActive(true);
+            break;
+        case TILE_WATER:
+            static_cast<AuraHudObject*>(m_game->hudObject("water_aura_hud"))->setActive(true);
+            break;
+        default:
+            break;
+    }
 
     // Create tiles
     if (m_mouseDown && m_currentMana - m_manaCost[m_auraType] >= 0) {
@@ -111,10 +131,10 @@ void Player::processInput(sf::Event event) {
             setAuraType(TILE_GRASS);
             break;
         case sf::Keyboard::Num2:
-            setAuraType(TILE_WATER);
+            setAuraType(TILE_ROCK);
             break;
         case sf::Keyboard::Num3:
-            setAuraType(TILE_ROCK);
+            setAuraType(TILE_WATER);
             break;
         default:
             break;

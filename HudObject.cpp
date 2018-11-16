@@ -62,7 +62,9 @@ void HudObject::setPosition(sf::Vector2f pos) {
     m_position = pos;
 }
 
-// MANA_HUD_OBJECT
+/////////////////////////////////////////////////////////////////////////////////
+//                          MANA_HUD_OBJECT                                    //
+/////////////////////////////////////////////////////////////////////////////////
 
 ManaHudObject::ManaHudObject(Game* game,
                      std::string fileName,
@@ -102,7 +104,9 @@ void ManaHudObject::draw() {
     if(m_visible) m_game->draw(m_meterSprite);
 }
 
-// AURA_HUD_OBJECT
+/////////////////////////////////////////////////////////////////////////////////
+//                          AURA_HUD_OBJECT                                    //
+/////////////////////////////////////////////////////////////////////////////////
 
 AuraHudObject::AuraHudObject(Game* game,
                      std::string fileName,
@@ -117,6 +121,11 @@ AuraHudObject::AuraHudObject(Game* game,
 }
 
 void AuraHudObject::update() {
+}
+
+void AuraHudObject::toggle() {
+    m_active = !m_active;
+
     if (m_active) {
         m_sprite.setTextureRect(sf::IntRect(m_textureRect.left,
                                 m_textureRect.top + m_textureRect.height,
@@ -128,8 +137,18 @@ void AuraHudObject::update() {
     }
 }
 
-void AuraHudObject::toggle() {
-    m_active = !m_active;
+void AuraHudObject::setActive(bool active) {
+    m_active = active;
+
+    if (m_active) {
+        m_sprite.setTextureRect(sf::IntRect(m_textureRect.left,
+                                m_textureRect.top + m_textureRect.height,
+                                m_textureRect.width,
+                                m_textureRect.height));
+    }
+    else {
+        m_sprite.setTextureRect(m_textureRect);
+    }
 }
 
 bool AuraHudObject::active() const {

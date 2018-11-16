@@ -43,9 +43,20 @@ BootError Game::boot() {
     m_screenQueue.push("map");
     m_currentScreen = m_screenQueue.front();
 
+    // HUD
+    // TODO - Does this belong here?
     m_managers[HUD_MANAGER]->add("mana_hud", new ManaHudObject(this,
                                                            "resources/textures/TEXTURE_MANA.png",
-                                                           sf::IntRect(0, 0, 300, 50), 30, 30, 2, true));
+                                                           sf::IntRect(0, 0, 300, 50), 30, 60, 3, true));
+    m_managers[HUD_MANAGER]->add("grass_aura_hud", new AuraHudObject(this,
+                                                           "resources/textures/TEXTURE_AURA_GRASS.png",
+                                                           sf::IntRect(0, 0, 64, 64), 360, 70, 3, true));
+    m_managers[HUD_MANAGER]->add("rock_aura_hud", new AuraHudObject(this,
+                                                           "resources/textures/TEXTURE_AURA_ROCK.png",
+                                                           sf::IntRect(0, 0, 64, 64), 440, 70, 3, true));
+    m_managers[HUD_MANAGER]->add("water_aura_hud", new AuraHudObject(this,
+                                                           "resources/textures/TEXTURE_AURA_WATER.png",
+                                                           sf::IntRect(0, 0, 64, 64), 520, 70, 3, true));
 
     m_running = true;
 

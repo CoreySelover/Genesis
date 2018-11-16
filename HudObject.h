@@ -89,7 +89,10 @@ public:
 
     void toggle();
 
+    void setActive(bool active);
+
     bool active() const;
+
 
 private:
     bool m_active;
