@@ -17,6 +17,7 @@ Map::Map(Game* game, bool active, int mapSeed)
     m_game->addTexture("resources/textures/TEXTURE_GRASS.png");
     m_game->addTexture("resources/textures/TEXTURE_WATER.png");
     m_game->addTexture("resources/textures/TEXTURE_BLANK.png");
+    m_game->addTexture("resources/textures/TEXTURE_ROCK.png");
 
     // Create and populate Entities
     m_entMan = new Manager();
@@ -152,7 +153,7 @@ bool Map::checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraTyp
 void Map::updateTileSprites() {
     for(int x = 0; x < m_game->mapWidth(); x++) {
         for(int y = 0; y < m_game->mapHeight(); y++) {
-            if(m_grid[x][y]->getType() == TILE_GRASS) {
+            if(m_grid[x][y]->getType() != TILE_BLANK) {
                 m_grid[x][y]->updateSprite();
             }
         }
