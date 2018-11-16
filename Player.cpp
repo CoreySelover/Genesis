@@ -39,6 +39,7 @@ Player::Player(Game* game, int x, int y, bool canMove)
 }
 
 void Player::update() {
+    Entity::update();
 
     // Movement
     if(m_left) {
@@ -79,14 +80,14 @@ void Player::update() {
             m_currentMana -= m_manaCost[m_auraType];
     }
 
-    // Update Mana
+    // Update Mana HUD
     if(!m_mouseDown && m_manaTimer.getElapsedTime().asSeconds() >= 0.2 && m_currentMana < m_maxMana) {
         m_currentMana += std::min(m_manaRechargeRate, m_maxMana - m_currentMana);
         m_manaTimer.restart();
     }
 
     // Sync sprite
-    m_sprite.setPosition(m_position);
+    m_sprite.setPosition(m_pixelPosition);
 
 }
 
@@ -161,32 +162,32 @@ void Player::processInput(sf::Event event) {
 void Player::walk(Direction direction) {
     switch(direction) {
     case LEFT:
-        m_position.x -= m_maxSpeed;
+        m_pixelPosition.x -= m_maxSpeed;
         break;
     case RIGHT:
-        m_position.x += m_maxSpeed;
+        m_pixelPosition.x += m_maxSpeed;
         break;
     case UP:
-        m_position.y -= m_maxSpeed;
+        m_pixelPosition.y -= m_maxSpeed;
         break;
     case DOWN:
-        m_position.y += m_maxSpeed;
+        m_pixelPosition.y += m_maxSpeed;
         break;
     case ULEFT:
-        m_position.x -= m_maxSpeed / sqrt(2);
-        m_position.y -= m_maxSpeed / sqrt(2);
+        m_pixelPosition.x -= m_maxSpeed / sqrt(2);
+        m_pixelPosition.y -= m_maxSpeed / sqrt(2);
         break;
     case URIGHT:
-        m_position.x += m_maxSpeed / sqrt(2);
-        m_position.y -= m_maxSpeed / sqrt(2);
+        m_pixelPosition.x += m_maxSpeed / sqrt(2);
+        m_pixelPosition.y -= m_maxSpeed / sqrt(2);
         break;
     case DLEFT:
-        m_position.x -= m_maxSpeed / sqrt(2);
-        m_position.y += m_maxSpeed / sqrt(2);
+        m_pixelPosition.x -= m_maxSpeed / sqrt(2);
+        m_pixelPosition.y += m_maxSpeed / sqrt(2);
         break;
     case DRIGHT:
-        m_position.x += m_maxSpeed / sqrt(2);
-        m_position.y += m_maxSpeed / sqrt(2);
+        m_pixelPosition.x += m_maxSpeed / sqrt(2);
+        m_pixelPosition.y += m_maxSpeed / sqrt(2);
         break;
     }
 }

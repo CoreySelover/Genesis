@@ -30,13 +30,13 @@ public:
 
     Entity(Game* game, int x, int y, bool canMove);
 
-    virtual void update() {}
+    virtual void update();
 
     virtual void draw() {}
 
     // Getters
 
-    sf::Vector2f getPosition();
+    sf::Vector2f getPixelPosition();
 
     bool canMove();
 
@@ -45,9 +45,9 @@ public:
     /* Returns true if this Entity can move (and has had its position changed)
      * Returns false if this Entity can't move (m_xPosition is unchanged)
      */
-    bool setPosition(float x, float y);
+    bool setPixelPosition(float x, float y);
 
-    bool setPosition(sf::Vector2f pos);
+    bool setPixelPosition(sf::Vector2f pos);
 
     void setMove(bool canMove);
 
@@ -55,7 +55,9 @@ protected:
 
     // Movement related
 
-    sf::Vector2f m_position;
+    sf::Vector2f m_pixelPosition;
+
+    sf::Vector2i m_tilePosition;
 
     bool m_canMove;
 };

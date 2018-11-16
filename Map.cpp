@@ -25,6 +25,9 @@ Map::Map(Game* game, bool active, int mapSeed)
     // Create and populate grid
     populateStartingMap(mapSeed);
 
+    m_previousCheckedTile = sf::Vector2i();
+    m_previousCheckedTileType = TILE_BLANK;
+
 }
 
 void Map::populateStartingMap(int seed) {
@@ -68,7 +71,7 @@ void Map::populateStartingMap(int seed) {
 void Map::update() {
     m_entMan->update();
 
-    m_view.setCenter(static_cast<Player*>(m_entMan->get("Player"))->getPosition());
+    m_view.setCenter(static_cast<Player*>(m_entMan->get("Player"))->getPixelPosition());
 }
 
 void Map::draw() {
