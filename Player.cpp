@@ -15,9 +15,8 @@
 Player::Player(Game* game, int x, int y, bool canMove)
     : Entity(game, x, y, canMove){
 
-    m_sprite.setTexture(m_game->addTexture("resources/textures/TEXTURE_PLAYER.png")->get());
-    // TODO - un-hard code this
-    m_sprite.setOrigin(sf::Vector2f(32,32));
+    initializeSprite();
+
     m_maxSpeed              = atoi(m_game->getGameValue("player_speed").c_str());
     m_auraRadius            = atoi(m_game->getGameValue("player_aura").c_str());
     m_maxMana               = atoi(m_game->getGameValue("player_mana").c_str());
@@ -27,15 +26,19 @@ Player::Player(Game* game, int x, int y, bool canMove)
     m_manaCost[TILE_WATER]  = atoi(m_game->getGameValue("aura_water_cost").c_str());
     m_manaCost[TILE_ROCK]   = atoi(m_game->getGameValue("aura_rock_cost").c_str());
 
-    m_currentMana       = m_maxMana;
-
     setAuraType(TILE_GRASS);
+    m_currentMana   = m_maxMana;
+    m_left          = false;
+    m_right         = false;
+    m_up            = false;
+    m_down          = false;
+    m_mouseDown     = false;
+}
 
-    m_left  = false;
-    m_right = false;
-    m_up    = false;
-    m_down  = false;
-    m_mouseDown = false;
+void Player::initializeSprite() {
+    m_sprite.setTexture(m_game->addTexture("resources/textures/TEXTURE_PLAYER.png")->get());
+    // TODO - un-hard code this
+    m_sprite.setOrigin(sf::Vector2f(32,32));
 }
 
 void Player::update() {
@@ -89,10 +92,6 @@ void Player::update() {
     // Sync sprite
     m_sprite.setPosition(m_pixelPosition);
 
-}
-
-void Player::draw() {
-    m_game->draw(m_sprite);
 }
 
 void Player::processInput(sf::Event event) {

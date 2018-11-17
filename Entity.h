@@ -30,28 +30,38 @@ public:
 
     Entity(Game* game, int x, int y, bool canMove);
 
+    virtual void initializeSprite() = 0;
+
     virtual void update();
 
-    virtual void draw() {}
+    virtual void draw();
 
     // Getters
 
     sf::Vector2f getPixelPosition();
+
+    sf::Vector2i getTilePosition();
 
     bool canMove();
 
     // Setters
 
     /* Returns true if this Entity can move (and has had its position changed)
-     * Returns false if this Entity can't move (m_xPosition is unchanged)
+     * Returns false if this Entity can't move (m_pixelPosition is unchanged)
      */
     bool setPixelPosition(float x, float y);
 
     bool setPixelPosition(sf::Vector2f pos);
 
+    bool setTilePosition(int x, int y);
+
+    bool setTilePosition(sf::Vector2i pos);
+
     void setMove(bool canMove);
 
 protected:
+
+    sf::Sprite m_sprite;
 
     // Movement related
 

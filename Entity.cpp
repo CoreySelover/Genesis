@@ -19,8 +19,16 @@ void Entity::update() {
     m_tilePosition = Tool::pixelsToTile(m_pixelPosition, m_game->tileWidth(), m_game->tileHeight());
 }
 
+void Entity::draw() {
+    m_game->draw(m_sprite);
+}
+
 sf::Vector2f Entity::getPixelPosition() {
     return m_pixelPosition;
+}
+
+sf::Vector2i Entity::getTilePosition() {
+    return m_tilePosition;
 }
 
 bool Entity::setPixelPosition(float x, float y) {
@@ -39,6 +47,14 @@ bool Entity::setPixelPosition(sf::Vector2f pos) {
     }
 
     return false;
+}
+
+bool Entity::setTilePosition(int x, int y) {
+    return setPixelPosition(Tool::tileToPixels(sf::Vector2i(x,y)));
+}
+
+bool Entity::setTilePosition(sf::Vector2i pos) {
+    return setPixelPosition(Tool::tileToPixels(pos));
 }
 
 bool Entity::canMove() {

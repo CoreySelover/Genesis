@@ -1,5 +1,6 @@
 
 // Copyright 2018 Corey Selover
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -13,9 +14,9 @@ class Player: public Entity {
 public:
     Player(Game* game, int x, int y, bool canMove);
 
-    void update();
+    void initializeSprite();
 
-    void draw();
+    void update();
 
     // Input and movement
 
@@ -36,8 +37,6 @@ public:
     void setAuraType(int auraType);
 
 private:
-    // TODO - This should probably be in Entity or some other base class
-    sf::Sprite m_sprite;
 
     int m_maxSpeed;
     int m_auraRadius;

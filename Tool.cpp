@@ -15,3 +15,7 @@ float Tool::distance(sf::Vector2f pos1, sf::Vector2f pos2) {
 sf::Vector2i Tool::pixelsToTile(sf::Vector2f pixelPosition, int tileWidth, int tileHeight) {
     return sf::Vector2i(int(pixelPosition.x / tileWidth), int(pixelPosition.y / tileHeight));
 }
+
+sf::Vector2f Tool::tileToPixels(sf::Vector2i tilePosition, int tileWidth, int tileHeight) {
+    return sf::Vector2f(tilePosition.x * tileWidth, tilePosition.y * tileHeight);
+}
