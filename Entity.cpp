@@ -3,19 +3,20 @@
 
 #include "Entity.h"
 #include "Tool.h"
+#include "Game.h"
 
 Entity::Entity(Game* game, int x, int y, bool canMove = true)
     : ManagedObject(game) {
 
     m_pixelPosition = sf::Vector2f(x, y);
 
-    m_tilePosition = Tool::pixelsToTile(m_pixelPosition);
+    m_tilePosition = Tool::pixelsToTile(m_pixelPosition, m_game->tileWidth(), m_game->tileHeight());
 
     m_canMove = canMove;
 }
 
 void Entity::update() {
-    m_tilePosition = Tool::pixelsToTile(m_pixelPosition);
+    m_tilePosition = Tool::pixelsToTile(m_pixelPosition, m_game->tileWidth(), m_game->tileHeight());
 }
 
 sf::Vector2f Entity::getPixelPosition() {

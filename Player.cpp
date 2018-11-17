@@ -162,7 +162,8 @@ void Player::processInput(sf::Event event) {
 void Player::walk(Direction direction) {
     switch(direction) {
     case LEFT:
-        m_pixelPosition.x -= m_maxSpeed;
+        if(static_cast<Map*>(m_game->screen("map"))->tile(m_tilePosition.x - 1, m_tilePosition.y)->getType() != TILE_BLANK)
+            m_pixelPosition.x -= m_maxSpeed;
         break;
     case RIGHT:
         m_pixelPosition.x += m_maxSpeed;
