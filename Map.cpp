@@ -180,6 +180,11 @@ Texture* Map::texture(std::string filePath) {
     return m_game->texture(filePath);
 }
 
-Tile* Map::tile(int x, int y) {
+Tile* Map::tileByGrid(int x, int y) {
     return m_grid[x][y];
+}
+
+Tile* Map::tileByPixels(int x, int y) {
+    sf::Vector2i tile = Tool::pixelsToTile(sf::Vector2f(x, y), m_game->tileWidth(), m_game->tileHeight());
+    return m_grid[tile.x][tile.y];
 }

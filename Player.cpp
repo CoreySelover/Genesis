@@ -160,35 +160,55 @@ void Player::processInput(sf::Event event) {
 }
 
 void Player::walk(Direction direction) {
+    float maxLeft = m_pixelPosition.x - (m_maxSpeed * 2);
+    float maxRight = m_pixelPosition.x + (m_maxSpeed * 2);
+    float maxUp = m_pixelPosition.y - (m_maxSpeed * 2);
+    float maxDown = m_pixelPosition.y + (m_maxSpeed * 2);
+
     switch(direction) {
     case LEFT:
-        if(static_cast<Map*>(m_game->screen("map"))->tile(m_tilePosition.x - 1, m_tilePosition.y)->getType() != TILE_BLANK)
+        if(static_cast<Map*>(m_game->screen("map"))->tileByPixels(maxLeft, m_pixelPosition.y)->getType() != TILE_BLANK)
             m_pixelPosition.x -= m_maxSpeed;
         break;
     case RIGHT:
-        m_pixelPosition.x += m_maxSpeed;
+        if(static_cast<Map*>(m_game->screen("map"))->tileByPixels(maxRight, m_pixelPosition.y)->getType() != TILE_BLANK)
+            m_pixelPosition.x += m_maxSpeed;
         break;
     case UP:
-        m_pixelPosition.y -= m_maxSpeed;
+        if(static_cast<Map*>(m_game->screen("map"))->tileByPixels(m_pixelPosition.x, maxUp)->getType() != TILE_BLANK)
+            m_pixelPosition.y -= m_maxSpeed;
         break;
     case DOWN:
-        m_pixelPosition.y += m_maxSpeed;
+        if(static_cast<Map*>(m_game->screen("map"))->tileByPixels(m_pixelPosition.x, maxDown)->getType() != TILE_BLANK)
+            m_pixelPosition.y += m_maxSpeed;
         break;
     case ULEFT:
-        m_pixelPosition.x -= m_maxSpeed / sqrt(2);
-        m_pixelPosition.y -= m_maxSpeed / sqrt(2);
+        if(static_cast<Map*>(m_game->screen("map"))->tileByPixels(maxLeft, m_pixelPosition.y)->getType() != TILE_BLANK
+           && static_cast<Map*>(m_game->screen("map"))->tileByPixels(m_pixelPosition.x, maxUp)->getType() != TILE_BLANK) {
+            m_pixelPosition.x -= m_maxSpeed / sqrt(2);
+            m_pixelPosition.y -= m_maxSpeed / sqrt(2);
+        }
         break;
     case URIGHT:
-        m_pixelPosition.x += m_maxSpeed / sqrt(2);
-        m_pixelPosition.y -= m_maxSpeed / sqrt(2);
+        if(static_cast<Map*>(m_game->screen("map"))->tileByPixels(maxRight, m_pixelPosition.y)->getType() != TILE_BLANK
+           && static_cast<Map*>(m_game->screen("map"))->tileByPixels(m_pixelPosition.x, maxUp)->getType() != TILE_BLANK) {
+            m_pixelPosition.x += m_maxSpeed / sqrt(2);
+            m_pixelPosition.y -= m_maxSpeed / sqrt(2);
+        }
         break;
     case DLEFT:
-        m_pixelPosition.x -= m_maxSpeed / sqrt(2);
-        m_pixelPosition.y += m_maxSpeed / sqrt(2);
+        if(static_cast<Map*>(m_game->screen("map"))->tileByPixels(maxLeft, m_pixelPosition.y)->getType() != TILE_BLANK
+           && static_cast<Map*>(m_game->screen("map"))->tileByPixels(m_pixelPosition.x, maxDown)->getType() != TILE_BLANK) {
+            m_pixelPosition.x -= m_maxSpeed / sqrt(2);
+            m_pixelPosition.y += m_maxSpeed / sqrt(2);
+        }
         break;
     case DRIGHT:
-        m_pixelPosition.x += m_maxSpeed / sqrt(2);
-        m_pixelPosition.y += m_maxSpeed / sqrt(2);
+        if(static_cast<Map*>(m_game->screen("map"))->tileByPixels(maxRight, m_pixelPosition.y)->getType() != TILE_BLANK
+           && static_cast<Map*>(m_game->screen("map"))->tileByPixels(m_pixelPosition.x, maxDown)->getType() != TILE_BLANK) {
+            m_pixelPosition.x += m_maxSpeed / sqrt(2);
+            m_pixelPosition.y += m_maxSpeed / sqrt(2);
+        }
         break;
     }
 }

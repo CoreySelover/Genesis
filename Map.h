@@ -33,7 +33,9 @@ public:
 
     Texture* texture(std::string filePath);
 
-    Tile* tile(int x, int y);
+    Tile* tileByGrid(int x, int y);
+
+    Tile* tileByPixels(int x, int y);
 
     ~Map();
 

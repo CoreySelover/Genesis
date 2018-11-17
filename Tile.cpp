@@ -55,19 +55,19 @@ void Tile::setSpriteTexture() {
 
 void Tile::updateSprite() {
     // North
-    if(m_y > 0 && m_map->tile(m_x, m_y - 1)->getType() == m_type) {
+    if(m_y > 0 && m_map->tileByGrid(m_x, m_y - 1)->getType() == m_type) {
         m_northIsGrass = true;
     }
     // South
-    if(m_y < m_map->m_game->mapHeight() && m_map->tile(m_x, m_y + 1)->getType() == m_type) {
+    if(m_y < m_map->m_game->mapHeight() && m_map->tileByGrid(m_x, m_y + 1)->getType() == m_type) {
         m_southIsGrass = true;
     }
     // West
-    if(m_x > 0 && m_map->tile(m_x - 1, m_y)->getType() == m_type) {
+    if(m_x > 0 && m_map->tileByGrid(m_x - 1, m_y)->getType() == m_type) {
         m_westIsGrass = true;
     }
     // East
-    if(m_x < m_map->m_game->mapWidth() && m_map->tile(m_x + 1, m_y)->getType() == m_type) {
+    if(m_x < m_map->m_game->mapWidth() && m_map->tileByGrid(m_x + 1, m_y)->getType() == m_type) {
         m_eastIsGrass = true;
     }
 
