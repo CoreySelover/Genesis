@@ -8,6 +8,10 @@
 
 class Game;
 
+enum MonsterType {
+    MONSTER_TERROR
+};
+
 class Monster : public Entity {
 public:
     Monster(Game* game, int x, int y, bool canMove, int damage, int maxHealth);
@@ -28,7 +32,7 @@ protected:
 
 class Terror : public Monster {
 public:
-    Terror(Game* game, int x, int y, bool canMove, int damage, int maxHealth);
+    Terror(std::string name, Game* game, int x, int y, bool canMove);
 
     void initializeSprite();
 

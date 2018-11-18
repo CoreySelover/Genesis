@@ -1,6 +1,8 @@
 
 // Copyright 2018 Corey Selover
 
+#include <sstream>
+
 #include "Manager.h"
 
 #include "Game.h"
@@ -93,4 +95,18 @@ ManagedObject* Manager::get(std::string name) {
     }
 
     return NULL;
+}
+
+std::string Manager::nextName(std::string nameBase) {
+    std::stringstream newName;
+    if(m_objectNames[nameBase]) {
+        m_objectNames[nameBase] = m_objectNames[nameBase] + 1;
+        newName << nameBase << m_objectNames[nameBase];
+        return newName.str();
+    }
+    else {
+        m_objectNames[nameBase] = 1;
+        newName << nameBase << m_objectNames[nameBase];
+        return newName.str();
+    }
 }

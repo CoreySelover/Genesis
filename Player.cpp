@@ -88,10 +88,6 @@ void Player::update() {
         m_currentMana += std::min(m_manaRechargeRate, m_maxMana - m_currentMana);
         m_manaTimer.restart();
     }
-
-    // Sync sprite
-    m_sprite.setPosition(m_pixelPosition);
-
 }
 
 void Player::processInput(sf::Event event) {

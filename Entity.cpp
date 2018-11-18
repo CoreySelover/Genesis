@@ -17,6 +17,9 @@ Entity::Entity(Game* game, int x, int y, bool canMove = true)
 
 void Entity::update() {
     m_tilePosition = Tool::pixelsToTile(m_pixelPosition, m_game->tileWidth(), m_game->tileHeight());
+
+    // Sync sprite
+    m_sprite.setPosition(m_pixelPosition);
 }
 
 void Entity::draw() {

@@ -1,5 +1,5 @@
 
-// Copyright 2018 Corey Selover3
+// Copyright 2018 Corey Selover
 
 #include "Map.h"
 
@@ -7,6 +7,7 @@
 #include "Tile.h"
 #include "Tool.h"
 #include "Player.h"
+#include "Monster.h"
 
 Map::Map(Game* game, bool active, int mapSeed)
     : Screen(game, active) {
@@ -55,7 +56,7 @@ void Map::populateStartingMap(int seed) {
         m_grid[centerOfMap.x][centerOfMap.y - 1]->changeType(TILE_GRASS);
         m_grid[centerOfMap.x][centerOfMap.y + 1]->changeType(TILE_GRASS);
         m_view.setCenter(m_grid[centerOfMap.x][centerOfMap.y]->centerCoordsAsPixels());
-        playerPos = sf::Vector2f(centerOfMap.x * m_game->tileWidth(), centerOfMap.y * m_game->tileHeight());
+        playerPos = Tool::tileToPixels(centerOfMap);
     }
     // Mutate the seed
     else {
@@ -72,6 +73,11 @@ void Map::update() {
     m_entMan->update();
 
     m_view.setCenter(static_cast<Player*>(m_entMan->get("Player"))->getPixelPosition());
+
+    if(m_monsterTimer.getElapsedTime().asSeconds() > 2) {
+        createMonster();
+        m_monsterTimer.restart();
+    }
 }
 
 void Map::draw() {
@@ -103,6 +109,27 @@ void Map::processInput(sf::Event event) {
     }
 }
 
+void Map::createMonster(int x, int y, int monsterType) {
+
+    // Create monster at random location on map
+    if(x == -1 && y == -1) {
+        // No valid tiles.
+        if(m_validMonsterTiles.size() == 0) return;
+        sf::Vector2f monsterPos = randomMonsterPos();
+        std::string terrorName = m_entMan->nextName("terror");
+        m_entMan->add(terrorName, new Terror(terrorName, m_game, monsterPos.x, monsterPos.y, true));
+    }
+    // Create monster at specified location
+    else {
+    //    m_entMan->add(m_entMan->nextName("terror"), new Terror(game, x, y, true));
+    }
+}
+
+sf::Vector2f Map::randomMonsterPos() {
+    int whichTile = rand() % (m_validMonsterTiles.size() - 1);
+    return Tool::tileToPixels(sf::Vector2i(m_validMonsterTiles[whichTile].first, m_validMonsterTiles[whichTile].second));
+}
+
 bool Map::checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraType) {
     sf::Vector2i tileCoords = Tool::pixelsToTile(pixelPosition, m_game->tileHeight(), m_game->tileWidth());
     bool shouldCostMana = true;
@@ -125,23 +152,35 @@ bool Map::checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraTyp
             m_grid[std::min(m_game->mapWidth(), tileCoords.x + 1)][tileCoords.y]->changeType(auraType);
             m_grid[tileCoords.x][std::max(0, tileCoords.y - 1)]->changeType(auraType);
             m_grid[tileCoords.x][std::min(m_game->mapHeight(), tileCoords.y + 1)]->changeType(auraType);
+
+            m_validMonsterTiles.push_back(std::pair<int, int>(tileCoords.x, tileCoords.y));
+            m_validMonsterTiles.push_back(std::pair<int, int>(std::max(0, tileCoords.x - 1), tileCoords.y));
+            m_validMonsterTiles.push_back(std::pair<int, int>(std::min(m_game->mapWidth(), tileCoords.x + 1), tileCoords.y));
+            m_validMonsterTiles.push_back(std::pair<int, int>(tileCoords.x, std::max(0, tileCoords.y - 1)));
+            m_validMonsterTiles.push_back(std::pair<int, int>(tileCoords.x, std::min(m_game->mapHeight(), tileCoords.y + 1)));
         }
         else {
             int y = 1;
             for(int x = std::max(tileCoords.x - auraRadius, 0); x < std::min(tileCoords.x, m_game->mapWidth()); x++) {
                 m_grid[x][tileCoords.y]->changeType(auraType);
+                m_validMonsterTiles.push_back(std::pair<int, int>(x, tileCoords.y));
                 for(int yy = y; yy > 0; yy--) {
                     m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(auraType);
                     m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(auraType);
+                    m_validMonsterTiles.push_back(std::pair<int, int>(x, std::min(tileCoords.y + yy, m_game->mapHeight() - 1)));
+                    m_validMonsterTiles.push_back(std::pair<int, int>(x, std::max(tileCoords.y - yy, 0)));
                 }
                 y++;
             }
             y = auraRadius;
             for(int x = std::min(tileCoords.x, m_game->mapWidth()); x < std::min(tileCoords.x + auraRadius, m_game->mapWidth()); x++) {
                 m_grid[x][tileCoords.y]->changeType(auraType);
+                m_validMonsterTiles.push_back(std::pair<int, int>(x, tileCoords.y));
                 for(int yy = y; yy > 0; yy--) {
                     m_grid[x][std::min(tileCoords.y + yy, m_game->mapHeight() - 1)]->changeType(auraType);
                     m_grid[x][std::max(tileCoords.y - yy, 0)]->changeType(auraType);
+                    m_validMonsterTiles.push_back(std::pair<int, int>(x, std::min(tileCoords.y + yy, m_game->mapHeight() - 1)));
+                    m_validMonsterTiles.push_back(std::pair<int, int>(x, std::max(tileCoords.y - yy, 0)));
                 }
                 y--;
             }

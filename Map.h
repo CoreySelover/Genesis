@@ -20,11 +20,15 @@ public:
 
     void draw();
 
+    // Gameplay
+
     void processInput(sf::Event event);
 
-    /**
-     * @return Returns 'true' if the tile is a different tile than the previous one checked.
-     */
+    void createMonster(int x = -1, int y = -1, int monsterType = 1);
+
+    sf::Vector2f randomMonsterPos();
+
+    // Returns 'true' if the tile is at a different location or a different type.
     bool checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraType);
 
     void updateTileSprites();
@@ -40,10 +44,13 @@ public:
     ~Map();
 
 private:
-    std::vector<std::vector<Tile*> > m_grid;
+    std::vector<std::vector<Tile*> >    m_grid;
+    std::vector<std::pair<int, int> >     m_validMonsterTiles;
 
     sf::Vector2i m_previousCheckedTile;
     TileType m_previousCheckedTileType;
+
+    sf::Clock m_monsterTimer;
 
 };
 

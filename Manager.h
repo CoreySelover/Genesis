@@ -44,15 +44,13 @@ public:
 
     // Management
 
-    /* Adds a ManagedObject to the manager.
-     * If the object is already managed, return it
-     * rather than replacing.
-     */
     ManagedObject* add(std::string name, ManagedObject* object);
 
     void del(std::string name);
 
     ManagedObject* get(std::string name);
+
+    std::string nextName(std::string nameBase);
 
 private:
     std::map<std::string, ManagedObject*> m_managed;
@@ -60,6 +58,8 @@ private:
     bool m_update;
 
     bool m_draw;
+
+    std::map<std::string, unsigned int> m_objectNames;
 
 };
 #endif // MANAGER_H
