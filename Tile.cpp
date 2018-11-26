@@ -14,14 +14,13 @@ Tile::Tile(Map* map, int x, int y, TileType type)
     m_type(type) {
 
     setSpriteTexture();
+    setHealthAccordingToType();
 
     m_northIsGrass = false;
     m_southIsGrass = false;
     m_eastIsGrass = false;
     m_westIsGrass = false;
 }
-
-Tile::~Tile() { }
 
 void Tile::update() { }
 
@@ -51,6 +50,28 @@ void Tile::setSpriteTexture() {
     m_sprite.setOrigin(sf::Vector2f(0,0));
     m_sprite.setPosition(m_x * m_map->m_game->tileWidth(), m_y * m_map->m_game->tileHeight());
     m_sprite.setTextureRect(sf::IntRect(2*m_map->m_game->tileWidth(), 2*m_map->m_game->tileHeight(), m_map->m_game->tileWidth(), m_map->m_game->tileHeight()));
+}
+
+void Tile::setHealthAccordingToType() {
+    switch(m_type) {
+        case TILE_BLANK:
+            m_maxHealth = -1;
+            break;
+        case TILE_GRASS:
+            m_maxHealth = 3;
+            break;
+        case TILE_WATER:
+            m_maxHealth = 3;
+            break;
+        case TILE_ROCK:
+            m_maxHealth = 10;
+            break;
+        default:
+            m_maxHealth = -1;
+            break;
+    }
+
+    m_currentHealth = m_maxHealth;
 }
 
 void Tile::updateSprite() {
@@ -173,8 +194,12 @@ void Tile::updateSprite() {
 }
 
 void Tile::changeType(TileType newType) {
+    bool sameType = (m_type == newType);
+
     m_type = newType;
     setSpriteTexture();
+
+    if(!sameType) setHealthAccordingToType();
 }
 
 TileType Tile::getType() {
@@ -189,3 +214,5 @@ sf::Vector2f Tile::centerCoordsAsPixels() {
     return sf::Vector2f(m_x * m_map->m_game->tileWidth() + (m_map->m_game->tileWidth() / 2),
                         m_y * m_map->m_game->tileHeight() + (m_map->m_game->tileHeight() / 2));
 }
+
+Tile::~Tile() { }

@@ -32,6 +32,8 @@ public:
 
     void setSpriteTexture();
 
+    void setHealthAccordingToType();
+
     void updateSprite();
 
     void changeType(TileType newType);
@@ -46,13 +48,15 @@ private:
     Map* m_map;
 
     int m_x;
-
     int m_y;
 
     TileType m_type;
+    int m_currentHealth;
+    int m_maxHealth;
 
     sf::Sprite m_sprite;
 
+    // TODO - rename these
     bool m_northIsGrass;
     bool m_southIsGrass;
     bool m_eastIsGrass;

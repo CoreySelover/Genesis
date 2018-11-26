@@ -74,7 +74,7 @@ void Map::update() {
 
     m_view.setCenter(static_cast<Player*>(m_entMan->get("Player"))->getPixelPosition());
 
-    if(m_monsterTimer.getElapsedTime().asSeconds() > 2) {
+    if(m_monsterTimer.getElapsedTime().asSeconds() > 5) {
         createMonster();
         m_monsterTimer.restart();
     }
