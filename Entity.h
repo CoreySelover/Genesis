@@ -28,9 +28,15 @@ enum Direction {
 class Entity : public ManagedObject {
 public:
 
+    // Initialization
+
     Entity(Game* game, int x, int y, bool canMove);
 
-    virtual void initializeSprite() = 0;
+    virtual void initializeSprite(std::string texturePath, sf::Vector2f spriteOrigin);
+
+    void centerSpriteInTile();
+
+    // Loop functions
 
     virtual void update();
 

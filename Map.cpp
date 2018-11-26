@@ -121,7 +121,8 @@ void Map::createMonster(int x, int y, int monsterType) {
     }
     // Create monster at specified location
     else {
-    //    m_entMan->add(m_entMan->nextName("terror"), new Terror(game, x, y, true));
+        std::string terrorName = m_entMan->nextName("terror");
+        m_entMan->add(terrorName, new Terror(terrorName, m_game, x, y, true));
     }
 }
 

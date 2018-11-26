@@ -14,8 +14,6 @@ class Player: public Entity {
 public:
     Player(Game* game, int x, int y, bool canMove);
 
-    void initializeSprite();
-
     void update();
 
     // Input and movement

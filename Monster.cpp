@@ -3,7 +3,6 @@
 
 #include "Monster.h"
 #include "Game.h"
-#include "Texture.h"
 
 Monster::Monster(Game* game, int x, int y, bool canMove, int damage, int maxHealth)
     : Entity(game, x, y, canMove) {
@@ -32,13 +31,7 @@ Terror::Terror(std::string name, Game* game, int x, int y, bool canMove)
     // TODO - load these numbers instead of hardcoding them
     : Monster(game, x, y, canMove, 1, 3) {
 
-    initializeSprite();
-}
-
-void Terror::initializeSprite() {
-    m_sprite.setTexture(m_game->addTexture("resources/textures/TEXTURE_TERROR.png")->get());
-    // TODO - un-hard code this
-    m_sprite.setOrigin(sf::Vector2f(32,32));
+    initializeSprite("resources/textures/TEXTURE_TERROR.png", sf::Vector2f(32,32));
 }
 
 void Terror::update() {

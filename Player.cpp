@@ -7,7 +7,6 @@
 
 #include "Game.h"
 #include "Map.h"
-#include "Texture.h"
 #include "Tool.h"
 #include "Tile.h"
 #include "HudObject.h"
@@ -15,7 +14,7 @@
 Player::Player(Game* game, int x, int y, bool canMove)
     : Entity(game, x, y, canMove){
 
-    initializeSprite();
+    initializeSprite("resources/textures/TEXTURE_PLAYER.png", sf::Vector2f(32,32));
 
     m_maxSpeed              = atoi(m_game->getGameValue("player_speed").c_str());
     m_auraRadius            = atoi(m_game->getGameValue("player_aura").c_str());
@@ -33,12 +32,6 @@ Player::Player(Game* game, int x, int y, bool canMove)
     m_up            = false;
     m_down          = false;
     m_mouseDown     = false;
-}
-
-void Player::initializeSprite() {
-    m_sprite.setTexture(m_game->addTexture("resources/textures/TEXTURE_PLAYER.png")->get());
-    // TODO - un-hard code this
-    m_sprite.setOrigin(sf::Vector2f(32,32));
 }
 
 void Player::update() {

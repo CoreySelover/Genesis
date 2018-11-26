@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Tool.h"
 #include "Game.h"
+#include "Texture.h"
 
 Entity::Entity(Game* game, int x, int y, bool canMove = true)
     : ManagedObject(game) {
@@ -13,6 +14,17 @@ Entity::Entity(Game* game, int x, int y, bool canMove = true)
     m_tilePosition = Tool::pixelsToTile(m_pixelPosition, m_game->tileWidth(), m_game->tileHeight());
 
     m_canMove = canMove;
+}
+
+void Entity::initializeSprite(std::string texturePath, sf::Vector2f spriteOrigin) {
+    m_sprite.setTexture(m_game->addTexture(texturePath)->get());
+    m_sprite.setOrigin(spriteOrigin);
+    centerSpriteInTile();
+}
+
+void Entity::centerSpriteInTile() {
+    m_pixelPosition.x = m_pixelPosition.x + m_game->tileWidth() / 2;
+    m_pixelPosition.y = m_pixelPosition.y + m_game->tileHeight() / 2;
 }
 
 void Entity::update() {

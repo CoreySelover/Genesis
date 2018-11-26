@@ -9,7 +9,7 @@
 
 class Tool {
 public:
-    static const float ALLOWED_POSITION_DISCREPANCY = 2;
+    //static const float ALLOWED_POSITION_DISCREPANCY = 2;
 
     static float distance(sf::Vector2f pos1, sf::Vector2f pos2);
 

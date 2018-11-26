@@ -16,8 +16,6 @@ class Monster : public Entity {
 public:
     Monster(Game* game, int x, int y, bool canMove, int damage, int maxHealth);
 
-    virtual void initializeSprite() = 0;
-
     virtual void update();
 
     virtual void draw();
@@ -33,8 +31,6 @@ protected:
 class Terror : public Monster {
 public:
     Terror(std::string name, Game* game, int x, int y, bool canMove);
-
-    void initializeSprite();
 
     void update();
 };
