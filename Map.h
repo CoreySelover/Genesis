@@ -28,6 +28,8 @@ public:
 
     sf::Vector2f randomMonsterPos();
 
+    void removeFromValidMonsterTiles(int x, int y);
+
     // Returns 'true' if the tile is at a different location or a different type.
     bool checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraType);
 
@@ -45,7 +47,7 @@ public:
 
 private:
     std::vector<std::vector<Tile*> >    m_grid;
-    std::vector<std::pair<int, int> >     m_validMonsterTiles;
+    std::vector<std::pair<int, int> >   m_validMonsterTiles;
 
     sf::Vector2i m_previousCheckedTile;
     TileType m_previousCheckedTileType;

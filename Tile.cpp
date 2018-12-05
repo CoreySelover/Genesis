@@ -214,6 +214,7 @@ void Tile::decreaseHealth(int damage) {
 
     if (m_currentHealth <= 0) {
         changeType(TileType::TILE_BLANK);
+        m_map->removeFromValidMonsterTiles(m_x, m_y);
     }
 }
 

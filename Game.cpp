@@ -217,8 +217,8 @@ Tile* Game::tileByGrid(int x, int y) {
     return static_cast<Map*>(screen("map"))->tileByGrid(x, y);
 }
 
-Tile* Game::tileByPixels(sf::Vector2f pixelPos) {
-    return static_cast<Map*>(screen("map"))->tileByPixels(pixelPos.x, pixelPos.y);
+Tile* Game::tileByPixels(float x, float y) {
+    return static_cast<Map*>(screen("map"))->tileByPixels(x, y);
 }
 
 HudObject* Game::hudObject(std::string name) {

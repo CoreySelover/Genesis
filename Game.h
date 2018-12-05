@@ -81,7 +81,7 @@ public:
 
     Tile* tileByGrid(int x, int y);
 
-    Tile* tileByPixels(sf::Vector2f pixelPos);
+    Tile* tileByPixels(float x, float y);
 
     HudObject* hudObject(std::string name);
 

@@ -131,6 +131,10 @@ sf::Vector2f Map::randomMonsterPos() {
     return Tool::tileToPixels(sf::Vector2i(m_validMonsterTiles[whichTile].first, m_validMonsterTiles[whichTile].second));
 }
 
+void Map::removeFromValidMonsterTiles(int x, int y) {
+    m_validMonsterTiles.erase(std::remove(m_validMonsterTiles.begin(), m_validMonsterTiles.end(), std::pair<int, int>(x, y)), m_validMonsterTiles.end());
+}
+
 bool Map::checkTile(sf::Vector2f pixelPosition, int auraRadius, TileType auraType) {
     sf::Vector2i tileCoords = Tool::pixelsToTile(pixelPosition, m_game->tileHeight(), m_game->tileWidth());
     bool shouldCostMana = true;
