@@ -299,6 +299,7 @@ void Game::loadGameValues() {
 void Game::saveGameValues() {
     std::cout << "Saving values" << std::endl;
     std::ofstream output;
+    // TODO - throw an error if this doesn't work.
     output.open("data.ini");
     std::map<std::string, std::string>::iterator itr;
     for (itr = m_gameValues.begin(); itr != m_gameValues.end(); itr++) {

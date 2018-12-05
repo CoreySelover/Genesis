@@ -14,7 +14,7 @@ Tile::Tile(Map* map, int x, int y, TileType type)
     m_type(type) {
 
     setSpriteTexture();
-    setHealthAccordingToType();
+    setStatsAccordingToType();
 
     m_northIsGrass = false;
     m_southIsGrass = false;
@@ -52,22 +52,29 @@ void Tile::setSpriteTexture() {
     m_sprite.setTextureRect(sf::IntRect(2*m_map->m_game->tileWidth(), 2*m_map->m_game->tileHeight(), m_map->m_game->tileWidth(), m_map->m_game->tileHeight()));
 }
 
-void Tile::setHealthAccordingToType() {
+void Tile::setStatsAccordingToType() {
     switch(m_type) {
         case TILE_BLANK:
-            m_maxHealth = -1;
+            m_maxHealth     = -1;
+            m_movementSpeed = 0;
             break;
         case TILE_GRASS:
-            m_maxHealth = 3;
+            // TODO - shouldn't it be game's responsibility to give us this value in a readable way
+            // so we don't have to cast it?
+            m_maxHealth     = atoi(m_map->m_game->getGameValue("tile_grass_health").c_str());
+            m_movementSpeed = atoi(m_map->m_game->getGameValue("tile_grass_speed").c_str());
             break;
         case TILE_WATER:
-            m_maxHealth = 3;
+            m_maxHealth     = atoi(m_map->m_game->getGameValue("tile_water_health").c_str());
+            m_movementSpeed = atoi(m_map->m_game->getGameValue("tile_water_speed").c_str());
             break;
         case TILE_ROCK:
-            m_maxHealth = 10;
+            m_maxHealth     = atoi(m_map->m_game->getGameValue("tile_rock_health").c_str());;
+            m_movementSpeed = atoi(m_map->m_game->getGameValue("tile_rock_speed").c_str());
             break;
         default:
-            m_maxHealth = -1;
+            m_maxHealth     = -1;
+            m_movementSpeed = 0;
             break;
     }
 
@@ -199,11 +206,23 @@ void Tile::changeType(TileType newType) {
     m_type = newType;
     setSpriteTexture();
 
-    if(!sameType) setHealthAccordingToType();
+    if(!sameType) setStatsAccordingToType();
+}
+
+void Tile::decreaseHealth(int damage) {
+    m_currentHealth -= damage;
+
+    if (m_currentHealth <= 0) {
+        changeType(TileType::TILE_BLANK);
+    }
 }
 
 TileType Tile::getType() {
     return m_type;
+}
+
+int Tile::getSpeed() {
+    return m_movementSpeed;
 }
 
 sf::Vector2f Tile::coordinatesAsPixels() {

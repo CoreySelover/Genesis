@@ -32,13 +32,17 @@ public:
 
     void setSpriteTexture();
 
-    void setHealthAccordingToType();
+    void setStatsAccordingToType();
 
     void updateSprite();
 
     void changeType(TileType newType);
 
+    void decreaseHealth(int damage);
+
     TileType getType();
+
+    int getSpeed();
 
     sf::Vector2f coordinatesAsPixels();
 
@@ -53,6 +57,7 @@ private:
     TileType m_type;
     int m_currentHealth;
     int m_maxHealth;
+    int m_movementSpeed;
 
     sf::Sprite m_sprite;
 
