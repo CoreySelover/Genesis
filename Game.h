@@ -19,6 +19,7 @@ class Entity;
 class Texture;
 class Screen;
 class HudObject;
+class Tile;
 
 // TODO - Are these really necessary?
 enum BootError {
@@ -77,6 +78,10 @@ public:
     Texture* texture(std::string name);
 
     Screen* screen(std::string name);
+
+    Tile* tileByGrid(int x, int y);
+
+    Tile* tileByPixels(sf::Vector2f pixelPos);
 
     HudObject* hudObject(std::string name);
 

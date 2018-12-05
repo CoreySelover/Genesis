@@ -3,6 +3,7 @@
 
 #include "Monster.h"
 #include "Game.h"
+#include "Tile.h"
 
 Monster::Monster(Game* game, int x, int y, bool canMove, int damage, int maxHealth)
     : Entity(game, x, y, canMove) {
@@ -17,6 +18,15 @@ Monster::Monster(Game* game, int x, int y, bool canMove, int damage, int maxHeal
 // listed in Monster?
 void Monster::update() {
     Entity::update();
+
+    // Time to move
+    if(m_game->tileByPixels(m_pixelPosition)->getType() == TileType::TILE_BLANK) {
+        m_pixelPosition.x += 1;
+    }
+    else if (m_damageClock.getElapsedTime().asSeconds() >= 1) {
+        m_game->tileByPixels(m_pixelPosition)->decreaseHealth(m_damage);
+        m_damageClock.restart();
+    }
 }
 
 void Monster::draw() {

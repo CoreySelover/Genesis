@@ -14,6 +14,7 @@
 #include "Map.h"
 #include "Texture.h"
 #include "HudObject.h"
+#include "Tile.h"
 
 Game::Game() {}
 
@@ -210,6 +211,14 @@ Texture* Game::addTexture(std::string filePath, bool repeated) {
 
 Screen* Game::screen(std::string name) {
     return static_cast<Screen*>(m_managers[SCREEN_MANAGER]->get(name));
+}
+
+Tile* Game::tileByGrid(int x, int y) {
+    return static_cast<Map*>(screen("map"))->tileByGrid(x, y);
+}
+
+Tile* Game::tileByPixels(sf::Vector2f pixelPos) {
+    return static_cast<Map*>(screen("map"))->tileByPixels(pixelPos.x, pixelPos.y);
 }
 
 HudObject* Game::hudObject(std::string name) {

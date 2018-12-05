@@ -26,6 +26,8 @@ protected:
     int m_maxHealth;
     int m_currentHealth;
 
+    sf::Clock m_damageClock;
+
 };
 
 class Terror : public Monster {
